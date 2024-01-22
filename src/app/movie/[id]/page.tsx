@@ -1,0 +1,259 @@
+import { options } from "@/app/data-storage/fuctions-data";
+import {
+  Box,
+  Card,
+  CardMedia,
+  Container,
+  Grid,
+  Typography,
+  Button,
+  CardContent,
+  Paper,
+} from "@mui/material";
+import Poster from "@/app/components/poster";
+import {
+  Cast,
+  CreditM,
+  MovieDetailsM,
+  RootRecomandationM,
+  RootImagesM,
+  RootVideosM,
+  RootSimilarM
+} from "@/app/components/interface";
+import CastBox from "@/app/components/castBox";
+import PosterCard from "@/app/components/posterCard";
+import BackDrop from "@/app/components/backdrop";
+import Credits from "@/app/components/credits";
+import Player from "@/app/components/reactPlayer";
+
+async function getData(id: number) {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
+    options
+  );
+  return res.json();
+}
+
+async function getCasts(id: number) {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
+    options
+  );
+  return res.json();
+}
+
+async function getRecomandations(id: number) {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}/recommendations?language=en-US&page=1`,
+    options
+  );
+  return res.json();
+}
+
+async function getSimilars(id: number) {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`,
+    options
+  );
+  return res.json();
+}
+
+async function getVideos(id: number) {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`,
+    options
+  );
+  return res.json();
+}
+
+async function getImage(id: number) {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}/images?include_image_language=en`,
+    options
+  );
+  return res.json();
+}
+
+export default async function Movie({ params }: { id: string }) {
+  const querry = params.id;
+  const splited = querry.split(/-/g);
+  const id = splited[splited.length - 1];
+
+  const [data, casts, recommendations, similar, videos, images] =
+    await Promise.all([
+      getData(id),
+      getCasts(id),
+      getRecomandations(id),
+      getSimilars(id),
+      getVideos(id),
+      getImage(id),
+    ]);
+
+  const movieData: MovieDetailsM = data;
+  const credits: CreditM = casts;
+  const recommend: RootRecomandationM = recommendations;
+  const imageL:RootImagesM=images
+  const videoL:RootVideosM= videos
+  const similarL:RootSimilarM=similar
+
+  return (
+    <Container>
+      <Card
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          paddingBottom: "0%",
+          height: {xs:'100%',sm:'100%',md:'18rem',lg:'20rem',xl:'24rem'},
+        }}
+      >
+        <iframe
+          width="100%"
+          height="100%"
+          src={`https://vidsrc.to/embed/movie/${id}`}
+          title={movieData.title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        ></iframe>
+      </Card>
+      <Typography variant="h6" component={"h4"} align="center">
+        {movieData.title}
+        {`(${movieData.release_date.slice(0, 4)})`}{" "}
+      </Typography>
+      <Grid container sx={{ position: "relative" }}>
+        <Grid
+          item
+          xs={4}
+          lg={3}
+          sx={{ height: "100%", zIndex: "1" }}
+          alignContent={"center"}
+        >
+          <Card sx={{ height: "100%", alignContent: "center" }}>
+            <Poster poster_path={movieData.poster_path}></Poster>
+          </Card>
+        </Grid>
+        <Grid item lg={8} xs={8}>
+          <Card sx={{ height: "100%" }}>
+            <CardContent>
+              <Box
+                className="genres"
+                sx={{ display: "flex", flexDirection: "row" }}
+              >
+                {movieData.genres.map((obj, index) => {
+                  return (
+                    <Button variant="outlined" key={index}>
+                      {obj.name}{" "}
+                    </Button>
+                  );
+                })}
+              </Box>
+            </CardContent>
+            <CardContent>
+              <Typography variant="body2">{movieData.overview} </Typography>
+              <Box className="casts">
+                {/* {showCasts()} */}
+                <CastBox Credit={credits}></CastBox>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        <CardMedia
+          image={`https://image.tmdb.org/t/p/original${movieData.backdrop_path}`}
+          component={"img"}
+          className="backgroundImg"
+          sx={{
+            position: "absolute",
+            pointerEvents: "none",
+            height: "100%",
+            opacity: "39%",
+            filter: "grayscale(42%)",
+          }}
+        ></CardMedia>
+      </Grid>
+
+
+        <Card className="photo">
+        <CardContent>
+            <Typography variant="h4"> Photos</Typography>
+        </CardContent>
+        <CardContent
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              overflowX: "scroll",
+              justifyContent: "space-between",
+            }}
+          >
+            {imageL.backdrops.map((obj,index:number)=>{
+              return (
+                <BackDrop path={`${obj.file_path}`} key={index}></BackDrop>
+              )
+            })}
+            </CardContent>
+        </Card>
+
+
+        <Box sx={{
+              display: "flex",
+              flexDirection: "row",
+              overflowX: "scroll",
+              justifyContent: "space-between",
+            }} >
+              {credits.cast.map((obj,index)=>{
+
+                return(
+                  <Credits key={index} obj={obj}></Credits>
+                )
+              })}
+
+        </Box>
+        <Card sx={{marginTop:'1rem'}}>
+              <CardContent>
+
+          <Typography variant='h5'> Videos</Typography>
+          </CardContent>
+              <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                overflowX: "scroll",
+                justifyContent: "space-between",
+              }}
+              >
+
+                {videoL.results.slice(0,8).map((obj,index)=>{
+                  return(
+                    <Player id={obj.key} key={index}></Player>
+                    )
+                  })}
+              </Box>
+                  </Card>
+                  
+
+      <Paper>
+        <Card>
+          <CardContent>
+            <Typography variant="h4">More Like This</Typography>
+          </CardContent>
+          <CardContent
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              overflowX: "scroll",
+              justifyContent: "space-between",
+            }}
+          >
+            {recommend.results.map((obj, index) => {
+              return (
+                <Box key={index} sx={{ marginRight: "0.5rem" }}>
+                  <PosterCard obj={obj} minWidth="14rem"></PosterCard>
+                </Box>
+              );
+            })}
+          </CardContent>
+        </Card>
+      </Paper>
+
+
+    </Container>
+  );
+}
