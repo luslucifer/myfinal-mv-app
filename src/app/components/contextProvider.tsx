@@ -17,7 +17,7 @@ export default function ContextProvider({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const [showTrailer, setShowTrailer] = useState(true);
+  const [showTrailer, setShowTrailer] = useState(false);
   const [ytKey,setYtKey]=useState('L02aPFAhTCk')
 
   // Use a more explicit type for the context value

@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, Box, Button,Stack } from "@mui/material";
+import {  Box, Button,Stack } from "@mui/material";
 import ReactPlayer from "react-player";
 import { useContext,useEffect, useState } from "react";
 import { MyContext } from "./contextProvider";
@@ -33,16 +33,16 @@ export default function YtTogglePlayer() {
 
 
   return (
-    <div style={{}}>
-    <Container sx={{position:'fixed',zIndex:'500',display:showBox ,maxWidth:'20rem',maxHeight:'11.25rem'}}>
-      <Stack justifyContent={'flex-end'} flexDirection={'row'}>
+    <Stack flexDirection={'row'} justifyContent={'center'} sx={{}}>
+    <Box sx={{position:'fixed',zIndex:'500',display:showBox,top:'40%'}}>
+        <Box>
         <Button onClick={()=>{setShowTrailer(false)
         console.log(showTrailer)
-        }} sx={{maxWidth:'3rem'}}>
+    }} sx={{Width:'3rem'}}>
           <CloseIcon></CloseIcon>{" "}
         </Button>
-      </Stack>
-      <Box className="player-wrapper">
+      </Box>
+      <Box className="player-wrapper" sx={{maxWidth:{ xs:'20rem',sm:'40rem'},maxHeight:{xs:'25.1rem',sm:'50rem'}}}>
         <ReactPlayer
           className="react-player"
           url={`https://www.youtube.com/watch?v=${ytKey}`}
@@ -50,7 +50,7 @@ export default function YtTogglePlayer() {
           height="100%"
           />
       </Box>
-    </Container>
-    </div>
+    </ Box>
+          </Stack>
   );
 }
