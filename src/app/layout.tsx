@@ -6,6 +6,9 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import SearchAppBar from "./components/appBar";
+import ContextProvider from "./components/contextProvider";
+import ClipBtn from "./components/playClipBtn";
+import YtTogglePlayer from "./components/ytTogglePlayer";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,9 +28,11 @@ export default function RootLayout({
       
       <body className={inter.className}>
         {/* <ThemeProvider> */}
+        <ContextProvider>
         <SearchAppBar></SearchAppBar>
+        <YtTogglePlayer></YtTogglePlayer>
         {children}
-    
+        </ContextProvider>
         {/* </ThemeProvider> */}
         </body>
     </html>

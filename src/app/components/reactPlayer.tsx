@@ -11,8 +11,8 @@ export default function Player(props:player){
             <ReactPlayer
             className='react-player'
             url={`https://www.youtube.com/watch?v=${props.id}`}
-            width='15rem'
-            height='7.1rem'
+            width='20rem'
+            height='11.1rem'
           />
         </Box>
     )

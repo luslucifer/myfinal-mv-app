@@ -5,16 +5,23 @@ import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import { Movie, formatDateToWords } from "../data-storage/fuctions-data";
 import Link from "next/link";
+import CircularProgressbarComponent from "./circularProgressBar";
 
 interface PosterCard {
   obj: Movie;
   minWidth:string;
 }
 
-export default function PosterCard(props: PosterCard) {
-  const obj = props.obj;
+export default  function PosterCard(props: PosterCard) {
+  const obj =  props.obj;
+  if (!obj.title || obj.title==undefined){
+    return null
+  }
+  const vote_average = Math.round(obj.vote_average*10)
   return (
-    <Link href={`/movie/${obj.title.replace(/ /g, "-") + "-" + obj.id}`}>
+    // <Link href={`/movie/${obj.title?.replace(/ /g, "-") + "-" + obj.id}`}>
+    <Link href={`/movie/${obj.title?.replace(/[ /]/g, "-")}-${obj.id}`}>
+
       <Card sx={{ minWidth:props.minWidth }}>
         <CardActionArea>
           <CardMedia
@@ -36,6 +43,7 @@ export default function PosterCard(props: PosterCard) {
                   1800px"
           />
           <CardContent>
+            <CircularProgressbarComponent number={vote_average}></CircularProgressbarComponent>
             <Typography gutterBottom variant="body1" component="div" align="center">
               {obj.title}
             </Typography>

@@ -31,6 +31,26 @@ const options = {
   }  
 
 
+  function filterMoviesByKeys(movies: MovieArray[]): MovieArray[] {
+    const validKeys = [
+      'adult',
+      'genre_ids',
+      'id',
+      'original_language',
+      'overview',
+      'popularity',
+      'vote_average',
+      'vote_count',
+      'character',
+      'credit_id',
+      'media_type',
+    ];
+  
+    return movies.filter((movie) => {
+      const keys = Object.keys(movie);
+      return validKeys.every((key) => keys.includes(key));
+    });
+  }
 
 
 
@@ -48,9 +68,18 @@ const options = {
     return `${monthWord} ${parseInt(day, 10)}, ${year}`;
   }
   
+
+  function parseTimestamp(isoTimestamp:string) {
+    const dateObj = new Date(isoTimestamp);
+  
+    const options6 = { day: 'numeric', month: 'long', year: 'numeric' };
+    const formattedString = dateObj.toLocaleDateString('en-US', options6);
+  
+    return formattedString;
+  }
   
 
 
 
-  export {options,formatDateToWords}
+  export {options,formatDateToWords,filterMoviesByKeys,parseTimestamp}
   export type{Movie,MovieResponse}

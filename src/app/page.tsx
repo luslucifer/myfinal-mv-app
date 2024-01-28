@@ -1,9 +1,6 @@
-import Image from "next/image";
-import PosterCard from "./components/posterCard";
 import { options } from "./data-storage/fuctions-data";
 import { Movie } from "./data-storage/fuctions-data";
 import { Typography } from "@mui/material";
-import {Button} from '@mui/material'
 import MediaBox from "./components/mediaBox";
 
 interface MovieResponse {
@@ -27,10 +24,8 @@ export default async function Home() {
   const trendingMv:MovieResponse = await trending
   const popularMoviesList:MovieResponse = await popularMovie
   
-  // var movieList = trendingMv.results
 
 
-  // const allArr = await Promise.all([popularMovie,trending])
 
 
   return (

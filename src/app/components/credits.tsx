@@ -5,6 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { Cast } from './interface';
+import Link from 'next/link';
 
 interface Credits {
   obj: Cast;
@@ -16,6 +17,7 @@ const object = props.obj
 const name = object.name
 const character = object.character
 const profile_path = object.profile_path
+const id = object.id
 
   // Example profile sizes
   const profileSizes = ["w45", "w185", "h632", "original"];
@@ -26,7 +28,9 @@ const profile_path = object.profile_path
   const sizes = `(max-width: 600px) 100vw, 50vw`;
 
   return (
-    <Card sx={{ minWidth:'10rem' }}>
+    <Link href={`/profile/${name.replace(/ /g ,'-')}-${id}`}>
+
+    <Card sx={{ minWidth:'10rem' ,marginRight:'1rem'}}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -46,5 +50,6 @@ const profile_path = object.profile_path
         </CardContent>
       </CardActionArea>
     </Card>
+      </Link>
   );
 }

@@ -1,12 +1,9 @@
 "use client";
-import { Button } from "@mui/material";
 import PosterCard from "./posterCard";
 import { useEffect, useState } from "react";
-import { MovieResponse, Movie } from "../data-storage/fuctions-data";
-import Tabs from "@mui/material/Tabs";
-// import Tab from "@mui/material";
-import Tab from "@mui/material/Tab"
+import { MovieResponse } from "../data-storage/fuctions-data";
 import CenteredTabs from "./tabs";
+import { Box, Grid } from "@mui/material";
 
 interface MediaBoxProps {
   popular: MovieResponse;
@@ -21,18 +18,20 @@ useEffect(()=>{
     const navingList:void = value==0?setMovieList(popular.results):setMovieList(trending.results)
 },[value])
   return (
-    <div>
-      <div className="moviebox">
-        <div className="buttons flex flex-row ">
+    <Box>
+      <Box className="moviebox">
+        <Box className="buttons flex flex-row ">
 
           <CenteredTabs function={setNewValue} value={value}></CenteredTabs>
-        </div>
-        <div className="movieBox grid grid-cols-2">
+        </Box>
+        <Grid container gap={0}>
           {movieList.map((obj, index) => (
-            <PosterCard key={index} obj={obj}></PosterCard>
+            <Grid item key={index} xs={6} sm={4} md={3} >
+            <PosterCard minWidth="10rem"  obj={obj}></PosterCard>
+            </Grid>
           ))}
-        </div>
-      </div>
-    </div>
+        </Grid>
+      </Box>
+    </Box>
   );
 }

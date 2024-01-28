@@ -9,6 +9,7 @@ import {
   Button,
   CardContent,
   Paper,
+  CardActionArea,
 } from "@mui/material";
 import Poster from "@/app/components/poster";
 import {
@@ -18,13 +19,18 @@ import {
   RootRecomandationM,
   RootImagesM,
   RootVideosM,
-  RootSimilarM
+  RootSimilarM,
+  RootReviewM,
 } from "@/app/components/interface";
 import CastBox from "@/app/components/castBox";
 import PosterCard from "@/app/components/posterCard";
 import BackDrop from "@/app/components/backdrop";
 import Credits from "@/app/components/credits";
 import Player from "@/app/components/reactPlayer";
+import CircularProgressbarComponent from "@/app/components/circularProgressBar";
+import Link from "next/link";
+import Review from "@/app/components/rivewBox";
+import ClipBtn from "@/app/components/playClipBtn";
 
 async function getData(id: number) {
   const res = await fetch(
@@ -73,13 +79,21 @@ async function getImage(id: number) {
   );
   return res.json();
 }
+async function getReview(id: number) {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}/reviews?language=en-US&page=1`,
+    options
+  );
+
+  return res.json();
+}
 
 export default async function Movie({ params }: { id: string }) {
   const querry = params.id;
   const splited = querry.split(/-/g);
   const id = splited[splited.length - 1];
 
-  const [data, casts, recommendations, similar, videos, images] =
+  const [data, casts, recommendations, similar, videos, images,reviews] =
     await Promise.all([
       getData(id),
       getCasts(id),
@@ -87,15 +101,18 @@ export default async function Movie({ params }: { id: string }) {
       getSimilars(id),
       getVideos(id),
       getImage(id),
+      getReview(id)
     ]);
 
   const movieData: MovieDetailsM = data;
   const credits: CreditM = casts;
   const recommend: RootRecomandationM = recommendations;
-  const imageL:RootImagesM=images
-  const videoL:RootVideosM= videos
-  const similarL:RootSimilarM=similar
+  const imageL: RootImagesM = images;
+  const videoL: RootVideosM = videos;
+  const similarL: RootSimilarM = similar;
+  const reviewL:RootReviewM = reviews;
 
+const vote_average = Math.round(movieData.vote_average*10)
   return (
     <Container>
       <Card
@@ -103,7 +120,13 @@ export default async function Movie({ params }: { id: string }) {
           display: "flex",
           justifyContent: "center",
           paddingBottom: "0%",
-          height: {xs:'100%',sm:'100%',md:'18rem',lg:'20rem',xl:'24rem'},
+          height: {
+            xs: "100%",
+            sm: "100%",
+            md: "18rem",
+            lg: "20rem",
+            xl: "24rem",
+          },
         }}
       >
         <iframe
@@ -141,10 +164,19 @@ export default async function Movie({ params }: { id: string }) {
                 {movieData.genres.map((obj, index) => {
                   return (
                     <Button variant="outlined" key={index}>
-                      {obj.name}{" "}
+                      <Typography variant="body1" >
+                        {obj.name}
+                        </Typography>
                     </Button>
                   );
                 })}
+              </Box>
+              <Box // this box is dedicated for circular proggress bar component and trailer button 
+              sx={{display:'flex',flexDirection:'row',justifyContent:'space-between',position:'relative',zIndex:'2'}}
+              >
+                <CircularProgressbarComponent number={vote_average} />
+                {/* <Button variant="contained"><Typography variant="body2">Play Clip</Typography></Button> */}
+                <ClipBtn variant="text" obj={videoL}></ClipBtn>
               </Box>
             </CardContent>
             <CardContent>
@@ -170,66 +202,59 @@ export default async function Movie({ params }: { id: string }) {
         ></CardMedia>
       </Grid>
 
-
-        <Card className="photo">
+      <Card sx={{ marginTop: "1rem" }} className="photo">
         <CardContent>
-            <Typography variant="h4"> Photos</Typography>
+          <Typography variant="h4"> Photos</Typography>
         </CardContent>
         <CardContent
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              overflowX: "scroll",
-              justifyContent: "space-between",
-            }}
-          >
-            {imageL.backdrops.map((obj,index:number)=>{
-              return (
-                <BackDrop path={`${obj.file_path}`} key={index}></BackDrop>
-              )
-            })}
-            </CardContent>
-        </Card>
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            overflowX: "scroll",
+            justifyContent: "space-between",
+          }}
+        >
+          {imageL.backdrops.map((obj, index: number) => {
+            return( 
+            <CardActionArea key={index}>
+              <BackDrop path={`${obj.file_path}`} ></BackDrop>
+              </CardActionArea>
+         ) })}
+        </CardContent>
+      </Card>
 
-
-        <Box sx={{
-              display: "flex",
-              flexDirection: "row",
-              overflowX: "scroll",
-              justifyContent: "space-between",
-            }} >
-              {credits.cast.map((obj,index)=>{
-
-                return(
-                  <Credits key={index} obj={obj}></Credits>
-                )
-              })}
-
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          overflowX: "scroll",
+          justifyContent: "space-between",
+        }}
+      >
+        {credits.cast.map((obj, index) => {
+          return <Credits key={index} obj={obj}></Credits>;
+        })}
+      </Box>
+      <Card sx={{ marginTop: "1rem" }}>
+        <CardContent>
+          <Typography variant="h5"> Videos</Typography>
+        </CardContent>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            overflowX: "scroll",
+            justifyContent: "space-between",
+          }}
+        >
+          {videoL.results.slice(0, 8).map((obj, index) => {
+            return <Player id={obj.key} key={index}></Player>;
+          })}
         </Box>
-        <Card sx={{marginTop:'1rem'}}>
-              <CardContent>
+      </Card>
 
-          <Typography variant='h5'> Videos</Typography>
-          </CardContent>
-              <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                overflowX: "scroll",
-                justifyContent: "space-between",
-              }}
-              >
-
-                {videoL.results.slice(0,8).map((obj,index)=>{
-                  return(
-                    <Player id={obj.key} key={index}></Player>
-                    )
-                  })}
-              </Box>
-                  </Card>
-                  
-
-      <Paper>
+          <Review obj={reviewL}></Review>
+      <Paper sx={{ marginTop: "1rem" }}>
         <Card>
           <CardContent>
             <Typography variant="h4">More Like This</Typography>
@@ -253,6 +278,41 @@ export default async function Movie({ params }: { id: string }) {
         </Card>
       </Paper>
 
+      <Card sx={{ marginTop: "1rem" }}>
+        <CardContent>
+          <Typography variant="h5">You may Like Those :</Typography>
+        </CardContent>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            overflowX: "scroll",
+            justifyContent: "space-between",
+          }}
+        >
+          {similarL.results.map((obj, index) => {
+            const encryptedTitle = obj.title.replace(/ /g , '-')+'-'+obj.id
+
+            return (
+              <Box key={index} sx={{ marginRight: "1rem" }}>
+                <Link href={`/movie/${encryptedTitle}`}>
+                <BackDrop path={obj.backdrop_path}></BackDrop>
+                </Link>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography variant="h6">{obj.title} </Typography>
+                  <Typography variant="h6">{obj.vote_average * 10}%</Typography>
+                </Box>
+              </Box>
+            );
+          })}
+        </Box>
+      </Card>
 
     </Container>
   );

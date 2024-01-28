@@ -11,7 +11,8 @@ export default function BackDrop(props:BackDrop){
     return (
         
         <CardMedia
-        sx={{maxWidth:{sx:'5rem',sm:'14rem',md:'18rem',lg:'12rem',xl:'18rem'},marginRight:'0.5rem'}}
+        // sx={{maxWidth:{sx:'5rem',sm:'14rem',md:'18rem',lg:'12rem',xl:'18rem'},marginRight:'0.5rem'}}
+        sx={{minWidth:'20rem',marginRight:'0.8rem'}}
         component={'img'}
         srcSet={`
                     https://image.tmdb.org/t/p/w300/${props.path} 300w,

@@ -317,3 +317,27 @@ export interface CastRoot {
     vote_average: number;
     vote_count: number;
   }
+
+  export interface RootReviewM {
+    id: number;
+    page: number;
+    results: {
+      author: string;
+      author_details: AuthorDetails;
+      content: string;
+      created_at: string;
+      id: string;
+      updated_at: string;
+      url: string;
+    }[];
+    total_pages: number;
+    total_results: number;
+  }
+  
+  export interface AuthorDetails {
+    name: string;
+    username: string;
+    avatar_path?: string;
+    rating?: number;
+  }
+  
