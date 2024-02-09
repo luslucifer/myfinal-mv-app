@@ -23,6 +23,7 @@ const options = {
     video: boolean;
     vote_average: number;
     vote_count: number;
+    media_type:string
   }
 
   interface MovieResponse {
@@ -55,7 +56,7 @@ const options = {
 
 
 
-  function formatDateToWords(dateString) {
+  function formatDateToWords(dateString:string) {
     const months = [
       'January', 'February', 'March', 'April',
       'May', 'June', 'July', 'August',
@@ -80,6 +81,13 @@ const options = {
   
 
 
+  export function replaceSpecialCharsAndSpaces(inputString:string) {
+    // Use a regular expression to replace special characters and spaces with hyphen
+    const replacedString = inputString.replace(/ /g, '-');
+    const replacedString1 = replacedString.replace(/ [/]/g, '-');
 
+  
+    return replacedString1;
+  }
   export {options,formatDateToWords,filterMoviesByKeys,parseTimestamp}
   export type{Movie,MovieResponse}

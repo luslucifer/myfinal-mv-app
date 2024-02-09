@@ -1,18 +1,29 @@
+
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions } from "@mui/material";
+import { Button, CardActionArea, CardActions, Stack } from "@mui/material";
 import { Movie, formatDateToWords } from "../data-storage/fuctions-data";
 import Link from "next/link";
 import CircularProgressbarComponent from "./circularProgressBar";
+import ClipBtn from "./playClipBtn";
 
 interface PosterCard {
   obj: Movie;
   minWidth:string;
+  isTv:boolean;
 }
 
 export default  function PosterCard(props: PosterCard) {
+  function difiningMovieTv(){
+    if(props.isTv || props.obj.media_type=="tv"){
+      return 'tv'
+    }
+    else{
+      return 'movie'
+    }
+  }
   const obj =  props.obj;
   if (!obj.title || obj.title==undefined){
     return null
@@ -20,10 +31,10 @@ export default  function PosterCard(props: PosterCard) {
   const vote_average = Math.round(obj.vote_average*10)
   return (
     // <Link href={`/movie/${obj.title?.replace(/ /g, "-") + "-" + obj.id}`}>
-    <Link href={`/movie/${obj.title?.replace(/[ /]/g, "-")}-${obj.id}`}>
 
       <Card sx={{ minWidth:props.minWidth }}>
         <CardActionArea>
+        <Link href={`/${difiningMovieTv()}/${obj.title?.replace(/[ /]/g, "-")}-${obj.id}`}>
           <CardMedia
             component="img"
             height="20"
@@ -42,8 +53,12 @@ export default  function PosterCard(props: PosterCard) {
                   (max-width: 1800px) 1200px,
                   1800px"
           />
+    </Link>
           <CardContent>
+            <Stack flexDirection={'row'} justifyContent={"space-between"} >
             <CircularProgressbarComponent number={vote_average}></CircularProgressbarComponent>
+            <ClipBtn obj={undefined} id={obj.id} variant="contained" color='secondary'></ClipBtn>
+            </Stack>
             <Typography gutterBottom variant="body1" component="div" align="center">
               {obj.title}
             </Typography>
@@ -53,6 +68,5 @@ export default  function PosterCard(props: PosterCard) {
           </CardContent>
         </CardActionArea>
       </Card>
-    </Link>
   );
 }

@@ -1,3 +1,4 @@
+// 'use client'
 import { options } from "@/app/data-storage/fuctions-data";
 import {
   Box,
@@ -15,13 +16,14 @@ import Poster from "@/app/components/poster";
 import {
   Cast,
   CreditM,
-  MovieDetailsM,
+  TvDetailsM,
   RootRecomandationM,
   RootImagesM,
   RootVideosM,
   RootSimilarM,
   RootReviewM,
-} from "@/app/components/interface";
+  SeasonM
+} from "./interface";
 import CastBox from "@/app/components/castBox";
 import PosterCard from "@/app/components/posterCard";
 import BackDrop from "@/app/components/backdrop";
@@ -31,10 +33,11 @@ import CircularProgressbarComponent from "@/app/components/circularProgressBar";
 import Link from "next/link";
 import Review from "@/app/components/rivewBox";
 import ClipBtn from "@/app/components/playClipBtn";
+import SeasonTable from "@/app/components/tvtable";
 
 async function getData(id: number) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
+    `https://api.themoviedb.org/3/tv/${id}?language=en-US`,
     options
   );
   return res.json();
@@ -42,7 +45,7 @@ async function getData(id: number) {
 
 async function getCasts(id: number) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
+    `https://api.themoviedb.org/3/tv/${id}/credits?language=en-US`,
     options
   );
   return res.json();
@@ -50,7 +53,7 @@ async function getCasts(id: number) {
 
 async function getRecomandations(id: number) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/recommendations?language=en-US&page=1`,
+    `https://api.themoviedb.org/3/tv/${id}/recommendations?language=en-US&page=1`,
     options
   );
   return res.json();
@@ -58,7 +61,7 @@ async function getRecomandations(id: number) {
 
 async function getSimilars(id: number) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`,
+    `https://api.themoviedb.org/3/tv/${id}/similar?language=en-US&page=1`,
     options
   );
   return res.json();
@@ -66,7 +69,7 @@ async function getSimilars(id: number) {
 
 async function getVideos(id: number) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`,
+    `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`,
     options
   );
   return res.json();
@@ -74,26 +77,43 @@ async function getVideos(id: number) {
 
 async function getImage(id: number) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/images?include_image_language=en`,
+    `https://api.themoviedb.org/3/tv/${id}/images?include_image_language=en`,
     options
   );
   return res.json();
 }
 async function getReview(id: number) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/reviews?language=en-US&page=1`,
+    `https://api.themoviedb.org/3/tv/${id}/reviews?language=en-US&page=1`,
     options
   );
 
   return res.json();
 }
 
-export default async function Movie({ params }: { id: string }) {
-  const querry = params.id;
+
+async function getSeasonDetails(id:number,ss:number){
+  const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/season/${ss}?language=en-US`, options)
+  return res.json()
+
+}
+
+export default async function Movie({ params }: { id: string[] }) {
+  const querry = params.id[0];
   const splited = querry.split(/-/g);
   const id = splited[splited.length - 1];
 
-  const [data, casts, recommendations, similar, videos, images,reviews] =
+
+  const ss = params.id[1] || 1
+  const ep = params.id[2] || 1
+
+  //router querry starts form here 
+  // const router = useRouter()
+  // const {ss,ep} = router.query
+
+  // const [ss,ep]=[1,1]
+
+  const [data, casts, recommendations, similar, videos, images,reviews,seasonInfo] =
     await Promise.all([
       getData(id),
       getCasts(id),
@@ -101,18 +121,22 @@ export default async function Movie({ params }: { id: string }) {
       getSimilars(id),
       getVideos(id),
       getImage(id),
-      getReview(id)
+      getReview(id),
+      getSeasonDetails(id,ss)
     ]);
 
-  const movieData: MovieDetailsM = data;
+  const tvData: TvDetailsM = data;
   const credits: CreditM = casts;
   const recommend: RootRecomandationM = recommendations;
   const imageL: RootImagesM = images;
   const videoL: RootVideosM = videos;
   const similarL: RootSimilarM = similar;
   const reviewL:RootReviewM = reviews;
+  const seasonL:SeasonM = seasonInfo
+const vote_average = Math.round(tvData.vote_average*10)
 
-const vote_average = Math.round(movieData.vote_average*10)
+
+    
   return (
     <Container>
       <Card
@@ -132,15 +156,15 @@ const vote_average = Math.round(movieData.vote_average*10)
         <iframe
           width="100%"
           height="100%"
-          src={`https://vidsrc.to/embed/movie/${id}`}
-          title={movieData.title}
+          src={`https://vidsrc.to/embed/tv/${id}/${ss}/${ep}`}
+          title={tvData.name}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         ></iframe>
       </Card>
       <Typography variant="h6" component={"h4"} align="center">
-        {movieData.title}
-        {`(${movieData.release_date.slice(0, 4)})`}{" "}
+        {tvData.name}
+        {`(${tvData.first_air_date.slice(0, 4)})`}{" "}
       </Typography>
       <Grid container sx={{ position: "relative" }}>
         <Grid
@@ -151,7 +175,7 @@ const vote_average = Math.round(movieData.vote_average*10)
           alignContent={"center"}
         >
           <Card sx={{ height: "100%", alignContent: "center" }}>
-            <Poster poster_path={movieData.poster_path}></Poster>
+            <Poster poster_path={tvData.poster_path}></Poster>
           </Card>
         </Grid>
         <Grid item lg={8} xs={8}>
@@ -161,7 +185,7 @@ const vote_average = Math.round(movieData.vote_average*10)
                 className="genres"
                 sx={{ display: "flex", flexDirection: "row" }}
               >
-                {movieData.genres.map((obj, index) => {
+                {tvData.genres.map((obj, index) => {
                   return (
                     <Button variant="outlined" key={index}>
                       <Typography variant="body1" >
@@ -180,7 +204,7 @@ const vote_average = Math.round(movieData.vote_average*10)
               </Box>
             </CardContent>
             <CardContent>
-              <Typography variant="body2">{movieData.overview} </Typography>
+              <Typography variant="body2">{tvData.overview} </Typography>
               <Box className="casts">
                 {/* {showCasts()} */}
                 <CastBox Credit={credits}></CastBox>
@@ -189,7 +213,7 @@ const vote_average = Math.round(movieData.vote_average*10)
           </Card>
         </Grid>
         <CardMedia
-          image={`https://image.tmdb.org/t/p/original${movieData.backdrop_path}`}
+          image={`https://image.tmdb.org/t/p/original${tvData.backdrop_path}`}
           component={"img"}
           className="backgroundImg"
           sx={{
@@ -201,6 +225,10 @@ const vote_average = Math.round(movieData.vote_average*10)
           }}
         ></CardMedia>
       </Grid>
+
+      <SeasonTable details={tvData} seasonData={seasonInfo} currentEp={ep}>
+
+      </SeasonTable>
 
       <Card sx={{ marginTop: "1rem" }} className="photo">
         <CardContent>
@@ -291,7 +319,7 @@ const vote_average = Math.round(movieData.vote_average*10)
           }}
         >
           {similarL.results.length>0?similarL.results.map((obj, index) => {
-            const encryptedTitle = obj.title.replace(/ /g , '-')+'-'+obj.id
+            const encryptedTitle = obj.name.replace(/ /g , '-')+'-'+obj.id
 
             return (
               <Box key={index} sx={{ marginRight: "1rem" }}>
@@ -305,7 +333,7 @@ const vote_average = Math.round(movieData.vote_average*10)
                     justifyContent: "space-between",
                   }}
                 >
-                  <Typography variant="h6">{obj.title} </Typography>
+                  <Typography variant="h6">{obj.name} </Typography>
                   <Typography variant="h6">{obj.vote_average * 10}%</Typography>
                 </Box>
               </Box>

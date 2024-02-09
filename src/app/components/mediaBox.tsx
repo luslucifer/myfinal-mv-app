@@ -8,15 +8,27 @@ import { Box, Grid } from "@mui/material";
 interface MediaBoxProps {
   popular: MovieResponse;
   trending: MovieResponse;
+  popularTv:MovieResponse;
 }
 
 export default function MediaBox(props: MediaBoxProps) {
-  const { popular, trending } = props;
+  const { popular, trending,popularTv } = props;
   const [movieList, setMovieList] = useState(popular.results);
 const [value,setNewValue] = useState(0)
 useEffect(()=>{
-    const navingList:void = value==0?setMovieList(popular.results):setMovieList(trending.results)
-},[value])
+    // const navingList:void = value==0?setMovieList(popular.results):(value==1?setMovieList(trending.results):setMovieList(popularTv.results))
+
+    if(value==0){
+      setMovieList(popular.results)
+    }
+    else if (value==1){
+      setMovieList(trending.results)
+    }
+    else if (value==3) {
+      setMovieList(props.popularTv.results)
+    }
+    
+  },[value])
   return (
     <Box>
       <Box className="moviebox">

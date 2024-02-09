@@ -1,61 +1,19 @@
 "use client";
 import * as React from "react";
-import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import { Stack, Autocomplete, TextField, Grid, CardMedia } from "@mui/material";
 import Link from "next/link";
 import { options } from "../data-storage/fuctions-data";
 import { SearchedResult, Genre } from "../data-storage/interfaces";
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  width: "100%",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-}));
+import HomeIcon from "@mui/icons-material/Home";
+import { useRouter } from "next/navigation";
 
 export default function SearchAppBar() {
+  const router = useRouter();
   const [querry, setQuerry] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [arr, setArr] = React.useState<SearchedResult[]>([]);
@@ -82,7 +40,9 @@ export default function SearchAppBar() {
       .then((response) => response.json())
       .then((response) => {
         setArr(response.results);
-        setOpen(true);
+        if (querry.length > 2) {
+          setOpen(true);
+        }
         console.log(querry);
       })
       .catch((err) => console.error(err));
@@ -97,8 +57,11 @@ export default function SearchAppBar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={() => {
+              router.push("/");
+            }}
           >
-            <MenuIcon />
+            <HomeIcon />
           </IconButton>
           <Typography
             variant="h6"
@@ -129,11 +92,31 @@ export default function SearchAppBar() {
               setOpen(false);
             }}
             renderOption={(props, option) => {
-              const title2 =
-                option.title?.replace(/[ /]/g, "-") + "-" + option.id ||
-                option.name?.replace(/[ /]/g, "-") + "-" + option.id;
+              function title2() {
+                if (option.title !== undefined) {
+                  return option.title?.replace(/[ /]/g, "-") + "-" + option.id;
+                } else {
+                  return option.name?.replace(/[ /]/g, "-") + "-" + option.id;
+                }
+              }
+
+              function type() {
+                if(option.genre_ids!=undefined){
+
+                  const foundAnime = option.genre_ids.find((number) => {
+                    return number === 16;
+                  });
+                  
+                  if (foundAnime !== undefined) {
+                    return 'anime';
+                  }
+                }
+              
+                return option.media_type;
+              }
+
               return (
-                <Link href={`/movie/${title2}`}>
+                <Link href={`/${type()}/${title2()}`}>
                   <Grid container>
                     <Grid item xs={1}>
                       {/* <Poster poster_path={option.poster_path}></Poster> */}
@@ -149,17 +132,20 @@ export default function SearchAppBar() {
                           {option.title || option.name}
                         </Typography>
                       </Box>
-                      <Stack direction={'row'} justifyContent={'space-evenly'}>
+                      <Stack direction={"row"} justifyContent={"space-evenly"}>
                         {option.genre_ids !== undefined
                           ? option.genre_ids.map((id) => {
                               const matchingGenre = genreTv.find(
                                 (item) => item.id === id
                               );
                               return matchingGenre ? (
-                                <Box key={matchingGenre.id} sx={{color:'secondary.main'}}>
-                                <Typography variant="body2"  className="">
-                                  {matchingGenre.name}
-                                </Typography>
+                                <Box
+                                  key={matchingGenre.id}
+                                  sx={{ color: "secondary.main" }}
+                                >
+                                  <Typography variant="body2" className="">
+                                    {matchingGenre.name}
+                                  </Typography>
                                 </Box>
                               ) : null;
                             })

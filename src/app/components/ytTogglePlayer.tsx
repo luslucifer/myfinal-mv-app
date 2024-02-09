@@ -48,6 +48,8 @@ export default function YtTogglePlayer() {
           url={`https://www.youtube.com/watch?v=${ytKey}`}
           width="100%"
           height="100%"
+          playing={showTrailer}
+          controls={true}
           />
       </Box>
     </ Box>

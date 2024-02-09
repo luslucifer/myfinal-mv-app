@@ -29,9 +29,11 @@ export default function RootLayout({
       <body className={inter.className}>
         {/* <ThemeProvider> */}
         <ContextProvider>
-        <SearchAppBar></SearchAppBar>
         <YtTogglePlayer></YtTogglePlayer>
+        <div className="grey">
+        <SearchAppBar></SearchAppBar>
         {children}
+        </div>
         </ContextProvider>
         {/* </ThemeProvider> */}
         </body>

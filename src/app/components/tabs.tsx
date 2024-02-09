@@ -18,6 +18,7 @@ export default function CenteredTabs(props:tabx) {
         <Tab label="Popular Movies"  />
         <Tab label="Trending Movies" />
         <Tab label="New Movie" />
+        <Tab label="Popular tvs"></Tab>
       </Tabs>
     </Box>
   );
