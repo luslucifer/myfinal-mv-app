@@ -215,7 +215,7 @@ export default async function Profile({ params }: any) {
               {Details.also_known_as.map((item,index)=>{
                 return ( <Typography variant="body2" key={index}> {item}</Typography>)
               })}
-            </Box>
+            </Box>            
           </Box>
         </Grid>
         <Grid item xs={12} sm={9}>
