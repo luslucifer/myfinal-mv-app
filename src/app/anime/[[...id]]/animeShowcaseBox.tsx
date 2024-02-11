@@ -93,13 +93,6 @@ export default function AnimeBoxCompo(props: AnimeBox) {
     }),
   };
 
-  useEffect(() => {
-    fetch(url, optionsAnilist)
-      .then(handleResponse)
-      .then(handleData)
-      .catch(handleError);
-  }, [props.qry]);
-
   function handleResponse(response: Response): Promise<AniListResponse> {
     return response.json().then(function (json: AniListResponse) {
       return response.ok ? json : Promise.reject(json);
@@ -139,6 +132,13 @@ export default function AnimeBoxCompo(props: AnimeBox) {
   function getSeasonNumber(startDate: { year: number, month: number, day: number }, format: string): number | null {
     // Check if the format is "TV"
   }
+  useEffect(() => {
+    fetch(url, optionsAnilist)
+      .then(handleResponse)
+      .then(handleData)
+      .catch(handleError);
+  }, [props.qry,optionsAnilist]);
+
 
   return (
     <Box>
