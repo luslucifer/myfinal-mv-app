@@ -4,7 +4,7 @@ import { Container, Box, Stack, Grid, Typography } from "@mui/material";
 import AnimePlayer from "./animePlayer";
 import Image from "next/image";
 import PlayBox from "./playbox";
-const domain = "http://localhost:8000/anime/gogoanime/";
+const domain = "https://consumet-api-hp98.onrender.com";
 async function SearchAnime(qry: string) {
   const res = await fetch(`${domain + qry}`);
   return res.json();
