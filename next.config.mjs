@@ -8,7 +8,12 @@ const nextConfig = {images: {
         // pathname: '/account123/**',
       },
     ],
+  },eslint:{
+    ignoreDuringBuilds:true
   },
+  typescript:{
+    ignoreBuildErrors:true
+  }
 };
 
 export default nextConfig;

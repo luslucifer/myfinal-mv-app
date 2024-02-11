@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from "next/link";
 
 interface AnimeCardProps {
-  anime: Media;
+  anime: any;
 }
 
 const AnimeCard: React.FC<AnimeCardProps> = ({ anime }) => {

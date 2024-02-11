@@ -148,7 +148,7 @@ export default async function Profile({ params }: any) {
             </IconButton>
           );
         } else {
-          return <div>{key}</div>;
+          return <div key={index}>{key}</div>;
         }
       }
       return null;

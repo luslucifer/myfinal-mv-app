@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import AnimeCard from "./animePosterCard";
+
 interface AniListResponse {
   data?: {
     Page?: {
@@ -24,7 +25,7 @@ interface Media {
     year: number;
     month: number;
     day: number;
-  };
+  } | undefined;
   endDate?: {
     year: number;
     month: number;
@@ -109,18 +110,11 @@ export default function AnimeBoxCompo(props: AnimeBox) {
         console.log(`Title (English): ${title?.english}`);
         console.log(`Cover Image: ${coverImage?.extraLarge}`);
         console.log(`Format: ${format}`);
-
         // Get the season number only for TV seasons
-        const seasonNumber = getSeasonNumber(startDate, format);
-        if (seasonNumber !== null) {
-          console.log(`Season Number (TV): ${seasonNumber}`);
-        } else {
-          console.log(`Not a TV season`);
-        }
       });
       setSeasons(fetchedSeasons);
     } else {
-      console.log('No anime seasons found for "Attack on Titan".');
+      console.log(`No anime seasons found for "${qry}".`);
     }
   }
 
@@ -129,32 +123,42 @@ export default function AnimeBoxCompo(props: AnimeBox) {
   }
 
   // Function to get the season number based on the startDate for TV seasons
-  function getSeasonNumber(startDate: { year: number, month: number, day: number }, format: string): number | null {
-    // Check if the format is "TV"
+  function getSeasonNumber(startDate: { year: number, month: number, day: number } | undefined, format: string): number | null {
+    // Check if the format is "TV" and startDate is defined
+    if (format === 'TV' && startDate) {
+      // Access startDate properties safely
+      const { year, month, day } = startDate;
+
+      // Add your logic to determine the season number based on the startDate
+      // For example, you might want to return the month as the season number
+      return month;
+    }
+
+    // Return null for non-TV seasons or if startDate is undefined
+    return null;
   }
+
   useEffect(() => {
     fetch(url, optionsAnilist)
       .then(handleResponse)
       .then(handleData)
       .catch(handleError);
-  }, [props.qry,optionsAnilist]);
-
+  }, [qry, optionsAnilist]);
 
   return (
     <Box>
-    <Typography>{props.qry}</Typography>
-    {seasons && (
-      <ul>
-        {seasons.map((season) => (
-          <li key={season.id}>
-            {/* Render AnimeCard component for each season */}
-            {/* <AnimeCard anime={season} /> */}
-            <AnimeCard anime={season}></AnimeCard>
-            <hr />
-          </li>
-        ))}
-      </ul>
-    )}
-  </Box>
+      <Typography>{qry}</Typography>
+      {seasons && (
+        <ul>
+          {seasons.map((season) => (
+            <li key={season.id}>
+              {/* Render AnimeCard component for each season */}
+              <AnimeCard anime={season}></AnimeCard>
+              <hr />
+            </li>
+          ))}
+        </ul>
+      )}
+    </Box>
   );
 }

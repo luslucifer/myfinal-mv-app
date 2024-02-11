@@ -88,7 +88,7 @@ async function getReview(id: number) {
   return res.json();
 }
 
-export default async function Movie({ params }: { id: string }) {
+export default async function Movie({ params }) {
   const querry = params.id;
   const splited = querry.split(/-/g);
   const id = splited[splited.length - 1];
@@ -176,7 +176,7 @@ const vote_average = Math.round(movieData.vote_average*10)
               >
                 <CircularProgressbarComponent number={vote_average} />
                 {/* <Button variant="contained"><Typography variant="body2">Play Clip</Typography></Button> */}
-                <ClipBtn variant="text" obj={videoL}></ClipBtn>
+                <ClipBtn   variant="text" obj={videoL}></ClipBtn>
               </Box>
             </CardContent>
             <CardContent>

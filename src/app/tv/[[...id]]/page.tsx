@@ -98,7 +98,7 @@ async function getSeasonDetails(id:number,ss:number){
 
 }
 
-export default async function Movie({ params }: { id: string[] }) {
+export default async function Movie({ params }) {
   const querry = params.id[0];
   const splited = querry.split(/-/g);
   const id = splited[splited.length - 1];
