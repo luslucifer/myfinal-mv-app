@@ -213,9 +213,9 @@ export default async function Profile({ params }: any) {
               <Typography variant="h6"> Also Known As</Typography>
               {/* <Typography variant="body1">{Details.also_known_as}</Typography> */}
               {Details.also_known_as.map((item,index)=>{
-                return ( <Typography variant="body2"> {item}</Typography>)
+                return ( <Typography variant="body2" key={index}> {item}</Typography>)
               })}
-            </Box>
+            </Box>            
           </Box>
         </Grid>
         <Grid item xs={12} sm={9}>
