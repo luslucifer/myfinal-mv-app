@@ -61,7 +61,7 @@ useEffect(() => {
           light
           playing
         />
-        {JSON.stringify(obj)}
+        {/* {JSON.stringify(obj)} */}
       </Stack>
     </Stack>
   );

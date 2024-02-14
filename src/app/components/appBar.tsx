@@ -83,7 +83,8 @@ export default function SearchAppBar() {
               <TextField
                 {...params}
                 label="search"
-                sx={{ minWidth: "40ch" }}
+                sx={{ maxWidth: "40ch",
+              minWidth:'30ch' }}
                 variant="standard"
               ></TextField>
             )}
