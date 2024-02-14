@@ -38,7 +38,6 @@ export default function RootLayout({
         </ContextProvider>
         {/* </ThemeProvider> */}
         </body>
-        // _app.js
 <Script
   id="adsbygoogle-init"
   strategy="afterInteractive"
