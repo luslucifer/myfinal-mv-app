@@ -1,9 +1,7 @@
 import { Container,Box, Card, Grid, CardMedia, Typography,Stack, Rating } from "@mui/material";
-import AnimePlayer from "./animePlayer";
 import { domain } from "@/app/anime/[[...id]]/page";
 import { Qry, qry } from "./interface";
 import PlayBox from "./playBox";
-import Image from "next/image";
 import HoverRating from "./rating";
 import AnimeCard from "./recommandCard";
 
