@@ -7,6 +7,10 @@ const nextConfig = {images: {
         // port: '',
         // pathname: '/account123/**',
       },
+      {
+        protocol:'https',
+        hostname:'gogocdn.net'
+      }
     ],
   },eslint:{
     ignoreDuringBuilds:true

@@ -1,57 +1,36 @@
 "use client";
-import { Box, Grid, Typography,Button } from "@mui/material";
+import { Box } from "@mui/material";
 import AnimePlayer from "./animePlayer";
-import { AnimeInfo, WatchList } from "./interface";
-import { useEffect, useState } from "react";
-import BasicTabs from "./subOrDubTabs";
-
+import { AnimeInfo } from "./interface";
+import { domain } from "@/app/anime/[[...id]]/page";
+import { useEffect,useState } from "react";
+import BasicTabs from "./toggleTabs";
 interface PlayBox {
-  dubObj: AnimeInfo;
-  subObj: AnimeInfo;
-  domain: string;
+  subInfo: AnimeInfo;
+  dubInfo: AnimeInfo;
 }
 
 export default function PlayBox(props: PlayBox) {
-  const domain = props.domain;
-  const dubObj = props.dubObj;
-  const subObj = props.subObj;
-  const [isDub, setIsDub] = useState(true);
-  const [epList, setEpList] = useState(subObj.episodes);
-  const [epId, setEpId] = useState('');
-  const [watchList,setWatchList] = useState(null)
 
+    const subInfo = props.subInfo
+    const dubInfo = props.dubInfo
+    const [epId,setEpId] = useState(subInfo.episodes[0].id)
+    const [watchList,setWatchList] = useState({})
+  useEffect(() => {
+    fetch(domain + "anime/gogoanime/watch/"+epId).then(
+      (res) => res.json()
 
-  useEffect(()=>{
+    )
+    .then((data)=>{
+        setWatchList(data)
+    })
+    ;
+  }, [epId]);
 
-      try {
-          setEpId(subObj.episodes[0].id||'shingeki-no-kyojin-episode-23')
-
-        } catch (error) {
-            console.error(error)
-        }
-        
-    },[])
-    
-    useEffect(()=>{
-      fetch(domain+'watch/'+epId).then(data=>data.json()).then(data=>{setWatchList(data)})
-
-  },[epId])
-
-
-
-  
   return (
     <Box>
-      <AnimePlayer  obj={watchList} ></AnimePlayer>
-      <Box className="episodeBox">
-        <BasicTabs
-        infoSub={subObj}
-        infoDub={dubObj}
-        setEpID={setEpId}
-        epId={epId}
-        >
-        </BasicTabs>
-      </Box>
+      <AnimePlayer obj={watchList}></AnimePlayer>
+      <BasicTabs infoSub={subInfo} infoDub={dubInfo} epId={epId} setEpID={setEpId} ></BasicTabs>
     </Box>
   );
 }

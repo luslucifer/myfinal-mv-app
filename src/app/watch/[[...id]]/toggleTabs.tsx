@@ -75,7 +75,7 @@ export default function BasicTabs(props:BasicTabs) {
           {subInfo.episodes.map((obj, index) => {
             const epNo = index + 1;
             return (
-              <Grid item xs={1} key={index} spacing={0}>
+              <Grid item  key={index} spacing={0}>
                 <Button color={obj.id==epId ? 'error' : 'secondary'} variant="outlined" sx={{width:'100%'}} onClick={()=>{props.setEpID(obj.id)}}>{epNo}  </Button>
               </Grid>
             );
@@ -87,7 +87,7 @@ export default function BasicTabs(props:BasicTabs) {
           {dubInfo!= undefined ?dubInfo.episodes.map((obj, index) => {
             const epNo = index + 1;
             return (
-              <Grid item xs={1} key={index} spacing={0}>
+              <Grid item  key={index} spacing={0}>
                 <Button color={obj.id==epId ? 'error' : 'secondary'} variant="outlined" sx={{width:'100%'}} onClick={()=>{props.setEpID(obj.id)}}>{epNo}  </Button>
               </Grid>
             );

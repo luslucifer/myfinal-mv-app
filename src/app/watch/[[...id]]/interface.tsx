@@ -1,21 +1,22 @@
-export interface QryResult {
-    currentPage: number
-    hasNextPage: boolean
-    results: Result[]
+export interface WatchList {
+    headers: Headers
+    sources: Source[]
+    download: string
+    message :string
   }
   
-  export interface Result {
-    id: string
-    title: string
+  export interface Headers {
+    Referer: string
+  }
+  
+  export interface Source {
     url: string
-    image: string
-    releaseDate: string
-    subOrDub: string
+    isM3U8: boolean
+    quality: string
   }
   
-  export var query = `
-  query GetAnime($id: Int) {
-    anime: Media(id: $id, type: ANIME) {
+  export const qry = `query($search:String){
+    Media(search:$search , type: ANIME) {
       id
       bannerImage
       title {
@@ -44,6 +45,29 @@ export interface QryResult {
       duration
       genres
       averageScore
+    
+    relations {
+      nodes {
+        id
+        title {
+          romaji
+          english
+          native
+          userPreferred
+        }
+        startDate {
+          year
+          month
+          day
+        }
+				coverImage {
+				  extraLarge
+				  large
+				  medium
+				  color
+				}
+      }
+    }
       
       characters: characters(page: 1, perPage: 100) {
         edges {
@@ -79,18 +103,18 @@ export interface QryResult {
         }
       }
     }
-  }
-`;
+  }`
 
-export interface AnimeData {
+
+  export interface Qry {
     data: Data
   }
   
   export interface Data {
-    anime: Anime
+    Media: Media
   }
   
-  export interface Anime {
+  export interface Media {
     id: number
     bannerImage: string
     title: Title
@@ -103,6 +127,7 @@ export interface AnimeData {
     duration: number
     genres: string[]
     averageScore: number
+    relations: Relations
     characters: Characters
   }
   
@@ -115,7 +140,7 @@ export interface AnimeData {
   export interface CoverImage {
     large: string
     medium: string
-    extraLarge:string
+    extraLarge: string
   }
   
   export interface StartDate {
@@ -130,29 +155,54 @@ export interface AnimeData {
     day: number
   }
   
+  export interface Relations {
+    nodes: Node[]
+  }
+  
+  export interface Node {
+    id: number
+    title: Title2
+    coverImage: CoverImage2
+    startDate:StartDate
+  }
+  
+  export interface Title2 {
+    romaji: string
+    english?: string
+    native: string
+    userPreferred: string
+  }
+  
+  export interface CoverImage2 {
+    extraLarge: string
+    large: string
+    medium: string
+    color: string
+  }
+  
   export interface Characters {
     edges: Edge[]
     pageInfo: PageInfo
   }
   
   export interface Edge {
-    node: Node
+    node: Node2
   }
   
-  export interface Node {
+  export interface Node2 {
     id: number
     name: Name
     description?: string
     image: Image
-    gender: string
+    gender?: string
     dateOfBirth: DateOfBirth
     siteUrl: string
   }
   
   export interface Name {
     first: string
-    middle?: string
-    last: string
+    middle: any
+    last?: string
     full: string
     native: string
     userPreferred: string
@@ -163,7 +213,7 @@ export interface AnimeData {
   }
   
   export interface DateOfBirth {
-    year: any
+    year?: number
     month?: number
     day?: number
   }
@@ -176,23 +226,9 @@ export interface AnimeData {
     hasNextPage: boolean
   }
   
-  export interface WatchList {
-    headers: Headers
-    sources: Source[]
-    download: string
-    message :string
-  }
-  
-  export interface Headers {
-    Referer: string
-  }
-  
-  export interface Source {
-    url: string
-    isM3U8: boolean
-    quality: string
-  }
-  
+
+  // animeInfo 
+
   export interface AnimeInfo {
     id: string
     title: string

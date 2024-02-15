@@ -1,142 +1,98 @@
-import { QryResult, query, AnimeData, AnimeInfo } from "./interface";
-import findClosestString from "@/app/data-storage/functions/find";
-import { Container, Box, Stack, Grid, Typography } from "@mui/material";
+import { Container,Box, Card, Grid, CardMedia, Typography,Stack, Rating } from "@mui/material";
 import AnimePlayer from "./animePlayer";
+import { domain } from "@/app/anime/[[...id]]/page";
+import { Qry, qry } from "./interface";
+import PlayBox from "./playBox";
 import Image from "next/image";
-import PlayBox from "./playbox";
-const domain = "https://consumet-api-hp98.onrender.com/anime/gogoanime/";
-async function SearchAnime(qry: string) {
-  const res = await fetch(`${domain + qry}`);
-  return res.json();
-}
-async function getAnimeInfo(id: string) {
-  const res = await fetch(domain + "info/" + id, { cache: "no-cache" });
-  return res.json();
-}
+import HoverRating from "./rating";
+import AnimeCard from "./recommandCard";
 
-async function getWatchList(id: string) {
-  const res = await fetch(domain + "watch/" + id);
-  return res.json();
-}
+export var AnilistUrl = "https://graphql.anilist.co";
 
-async function getAnimeData(id: number) {
-  var url = "https://graphql.anilist.co",
-    options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        query: query,
-        variables: { id: id },
-      }),
-      next: { revalidate: 604800 },
-      // cache: 'no-store' ,
-    };
-
-  const res = await fetch(url, options);
+async function getAnilist(searchQry: string) {
+  const variables = {
+    search: searchQry,
+  };
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query: qry,
+      variables: variables,
+    }),
+  };
+  const res = await fetch(AnilistUrl, options);
   return res.json();
 }
 
-export default async function WatchAnime({ params }) {
-  const qry = decodeURIComponent(params.id[0]);
-  // const qry ='Hagane-no-Renkinjutsushi:-FULLMETAL-ALCHEMIST'
-  const id: number = params.id[1];
-  const qryResult: QryResult = await SearchAnime(qry);
-  const mutedQry = qry.toLowerCase();
-  var idSub: string;
-  var idDub: string;
-  var dubInfo: AnimeInfo;
+async function getInfo(id: string) {
+  const res = await fetch(domain + `anime/gogoanime/info/${id}`);
+  return res.json();
+}
 
-  const idsArr: string[] = [];
-  if (qryResult.results.length >= 1) {
-    //maybe dub is available
-    let arr = qryResult.results;
-    arr.map((obj) => {
-      idsArr.push(obj.id);
-    });
-    idSub = findClosestString(mutedQry, idsArr) || qryResult.results[0].id;
-
-    const Dub = idsArr.find((id) => id == idSub + "-dub");
-
-    if (Dub) {
-      idDub = idSub + "-dub";
-      dubInfo = await getAnimeInfo(idDub); // if dub is available then it will fetch dubed info
-    } else {
-      //maybe we can find dub
-      dubInfo = await getAnimeInfo(idSub + "-dub");
-      if (Object.keys(dubInfo).length == 1) {
-        dubInfo = undefined; // dub is not available
-      }
-    }
+export default async function Watch({ params }) {
+  const id: string = params.id[0];
+  const splited = id.split(/-/g);
+  if (splited[splited.length - 1] == "dub") {
+    splited.pop();
   }
-  const subInfo: AnimeInfo = await getAnimeInfo(idSub); // it will fetch subbed info
-  const animeData: AnimeData = await getAnimeData(id);
+  const serQry: string = splited.join(" ");
 
-  return (
-    <Container>
-      {qry}
-      <Box>
-        <PlayBox dubObj={dubInfo} domain={domain} subObj={subInfo}></PlayBox>
-      </Box>
+  const dubId = splited.join("-") + "-dub";
+  const subId = splited.join("-");
+  // const infoAnilist:Qry = await getAnilist(serQry)
 
-      <Box
-        className="reviewBox"
-        sx={
-          {
-            // width: "100%",
-            // backgroundImage: `url(${animeData.data.anime.bannerImage})`,
-            // backgroundRepeat: "no-repeat",
-            // backgroundPosition: "center",
-            // backgroundSize: "cover",
-          }
-        }
-      >
-        <Box sx={{ position: "relative" }}>
-          <Image
-            src={animeData.data.anime.bannerImage}
-            layout="fill"
-            objectFit="contain"
-            alt={"image of " + animeData.data.anime.title.english}
-          ></Image>
-        </Box>
-        <Grid container>
-          <Grid item xs={12} sm={4} sx={{ position: "relative" }}>
-            <Stack
-              sx={{ height: { xs: "10rem" },  
-          width: "100%",
-          // backgroundImage: `url(${animeData.data.anime.bannerImage})`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-            }}
-              justifyContent={"right"}
-            >
-              <Image
-                src={animeData.data.anime.coverImage.extraLarge}
-                layout="fill"
-                objectFit="contain"
-                alt={`anilist poster image of ${animeData.data.anime.title.english}`}
-                ></Image>
-              {/* <Image
-          src={animeData.data.anime.bannerImage}
-          layout="fill"
-          objectFit="contain"
-          alt={'image of '+animeData.data.anime.title.english}
-          style={{zIndex:'-1'}}
-          ></Image> */}
-            </Stack>
-          </Grid>
-          <Grid item xs={12} sm={8}>
-            <Typography variant="h5">
-              {animeData.data.anime.title.english}
-            </Typography>
-            <Typography variant="h6"  dangerouslySetInnerHTML={{ __html:animeData.data.anime.description}}>
-            </Typography>
-          </Grid>
+  const [subInfo, dubInfo, anilistDetail] = await Promise.all([
+    getInfo(subId),
+    getInfo(dubId),
+    getAnilist(serQry),
+  ]);
+    const animeDetails:Qry = anilistDetail
+  return <Container>
+    <PlayBox subInfo={subInfo} dubInfo={dubInfo}></PlayBox>
+    
+    <Box className="overview box ">
+        <Card>
+            <Grid container>
+                <Grid item sm={4} xs={11} sx={{justifyContent:'center',display:'flex'}}>
+                    <Box sx={{position:'relative'}}>
+                        {/* <Image src={animeDetails.data.Media.coverImage.extraLarge} layout="fill" objectFit="contain" fill={true}></Image> */}
+                        {/* {animeDetails.data.Media.coverImage.extraLarge} */}
+                        <CardMedia component={'img'} sx={{margin:'1rem'}} src={animeDetails.data.Media.coverImage.extraLarge}></CardMedia>
+                    </Box>
+                </Grid>
+                <Grid item sm={8} xs={12} sx={{display:'flex',justifyContent:'center'}}>
+                    <Box sx={{maxWidth:'80%',display:'flex',justifyContent:'end' ,flexDirection:'column'}}>
+
+                    <Stack  flexDirection={'row'} justifyContent={'space-between'} className='title an rating' >
+                        <Typography component={'h2'}>{animeDetails.data.Media.title.english}</Typography>
+                        <HoverRating value={animeDetails.data.Media.averageScore/20}></HoverRating>
+                    </Stack>
+
+                    <Box className='overview'>
+                        <Typography component={'body1'}  dangerouslySetInnerHTML={{__html:animeDetails.data.Media.description}}>
+                        </Typography>
+                    </Box>
+                    </Box>
+                </Grid>
+            </Grid>
+        </Card>
+
+<Box className='related'>
+    <Grid container>
+    {animeDetails.data.Media.relations.nodes.map((obj , index)=>{
+        
+        return (
+            <AnimeCard image={obj.coverImage.extraLarge} key={index} name={obj.title.userPreferred} title={obj.title.english} releaseDate={obj.startDate.day} id={obj.id}></AnimeCard>
+            )
+        })}
         </Grid>
-      </Box>
-    </Container>
-  );
+
+</Box>
+
+    </Box>
+    </Container>;
 }
