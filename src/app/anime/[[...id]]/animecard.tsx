@@ -30,7 +30,7 @@ const AnimeCard = ({ obj }: AnimeCardProps) => {
     <Card sx={cardContainerStyle}>
     <CardActionArea sx={cardContainerStyle}>
 
-      <Box sx={{height:{xs:'15rem'} ,width:{xs:'10rem'}}}>
+      <Box sx={{position:'relative',height:{xs:'15rem'} ,width:{xs:'10rem'}}}>
         <Image
           alt={`Poster of ${obj.title}`}
           src={obj.image}
