@@ -10,6 +10,7 @@ import ContextProvider from "./components/contextProvider";
 import ClipBtn from "./components/playClipBtn";
 import YtTogglePlayer from "./components/ytTogglePlayer";
 import Script from "next/script";
+import AdsScript from "./components/nextAdd";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,13 +38,10 @@ export default function RootLayout({
         </div>
         </ContextProvider>
         {/* </ThemeProvider> */}
+
+      <AdsScript></AdsScript>
+      
         </body>
-<Script
-  id="adsbygoogle-init"
-  strategy="afterInteractive"
-  crossOrigin="anonymous"
-  src= "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5632130063056399"
-/>
     </html>
   );
 }

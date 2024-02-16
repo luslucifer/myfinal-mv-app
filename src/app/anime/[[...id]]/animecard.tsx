@@ -15,7 +15,7 @@ const AnimeCard = ({ obj }: AnimeCardProps) => {
     alignItems: "center",
     // width: "max-content", // Allow card to shrink to content size
     // height:'15rem',
-    maxWidth:{xs:'10rem'}
+    width:{xs:'10rem'}
     
   };
 
@@ -26,11 +26,10 @@ const AnimeCard = ({ obj }: AnimeCardProps) => {
   };
 
   return (
-        <Link href={`/watch/${obj.id}`} style={cardContainerStyle}>
+    <Link href={`/watch/${obj.id}`} style={cardContainerStyle}>
     <Card sx={cardContainerStyle}>
     <CardActionArea sx={cardContainerStyle}>
-
-      <Box sx={{position:'relative',height:{xs:'15rem'} ,width:{xs:'10rem'}}}>
+    <Box sx={{ position: 'relative', aspectRatio: `${460 / 648}`, width: '100%' }}>
         <Image
           alt={`Poster of ${obj.title}`}
           src={obj.image}
@@ -51,6 +50,7 @@ const AnimeCard = ({ obj }: AnimeCardProps) => {
           </CardActionArea>
     </Card>
           </Link>
+          
   );
 };
 

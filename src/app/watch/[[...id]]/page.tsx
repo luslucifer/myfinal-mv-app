@@ -4,6 +4,7 @@ import { Qry, qry } from "./interface";
 import PlayBox from "./playBox";
 import HoverRating from "./rating";
 import AnimeCard from "./recommandCard";
+import CharecterBox from "./chareterBox";
 
 export var AnilistUrl = "https://graphql.anilist.co";
 
@@ -52,10 +53,13 @@ export default async function Watch({ params }) {
   return <Container>
     <PlayBox subInfo={subInfo} dubInfo={dubInfo}></PlayBox>
     
+    {animeDetails.errors == undefined ?
+    
+    <Box className='anilistBox'>
     <Box className="overview box ">
         <Card>
             <Grid container>
-                <Grid item sm={4} xs={11} sx={{justifyContent:'center',display:'flex'}}>
+                <Grid item sm={3} xs={11} sx={{justifyContent:'center',display:'flex'}}>
                     <Box sx={{position:'relative'}}>
                         {/* <Image src={animeDetails.data.Media.coverImage.extraLarge} layout="fill" objectFit="contain" fill={true}></Image> */}
                         {/* {animeDetails.data.Media.coverImage.extraLarge} */}
@@ -79,18 +83,43 @@ export default async function Watch({ params }) {
             </Grid>
         </Card>
 
+
+        <Stack flexDirection={'row'} gap={2} overflow={'scroll'}>
+            {
+                animeDetails.data.Media.characters.edges.map((obj,index)=>{
+                    
+                    
+                    
+                    return <CharecterBox obj={obj.node} key={index} ></CharecterBox>
+                })
+            }
+        </Stack>
+
 <Box className='related'>
-    <Grid container>
+    <Typography component={'h5'} > Related</Typography>
+    <Stack  gap={2} flexDirection={'row'} overflow={'scroll'}>
     {animeDetails.data.Media.relations.nodes.map((obj , index)=>{
         
         return (
-            <AnimeCard image={obj.coverImage.extraLarge} key={index} name={obj.title.userPreferred} title={obj.title.english} releaseDate={obj.startDate.day} id={obj.id}></AnimeCard>
+            <AnimeCard image={obj.coverImage.extraLarge} key={index} name={obj.title.userPreferred} title={obj.title.english} releaseDate={obj.startDate.year} id={obj.id}></AnimeCard>
             )
         })}
-        </Grid>
+
+
+{animeDetails.data.Media.recommendations.nodes.map((obj,key)=>{
+    return <AnimeCard key={key}  id={obj.id} image={obj.mediaRecommendation.coverImage.extraLarge} title={obj.mediaRecommendation.title.userPreferred} name={obj.mediaRecommendation.title.english} releaseDate={obj.mediaRecommendation.startDate.year}></AnimeCard>
+    // return <div key={key}>
+    //     {JSON.stringify(obj)}
+    // </div>
+})}
+
+        </Stack>
 
 </Box>
 
     </Box>
+</Box>
+    :null}
+
     </Container>;
 }

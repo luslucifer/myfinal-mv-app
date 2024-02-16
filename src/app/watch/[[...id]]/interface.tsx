@@ -19,6 +19,27 @@ export interface WatchList {
     Media(search:$search , type: ANIME) {
       id
       bannerImage
+      recommendations{
+        nodes {
+          id
+          mediaRecommendation{
+            title {
+              romaji
+              english
+              native
+              userPreferred
+            }
+            startDate {
+              year
+              month
+              day
+            }
+            coverImage{
+              extraLarge
+            }
+          }
+        }
+      }
       title {
         romaji
         english
@@ -72,6 +93,7 @@ export interface WatchList {
       characters: characters(page: 1, perPage: 100) {
         edges {
           node {
+            
             id
             name {
               first
@@ -81,7 +103,7 @@ export interface WatchList {
               native
               userPreferred
             }
-            description
+            
             image {
               large
             }
@@ -107,9 +129,30 @@ export interface WatchList {
 
 
   export interface Qry {
+    
+    data: Data
+    errors:RootError
+  }
+  
+  export interface RootError {
+    errors: Error[]
     data: Data
   }
   
+  export interface Error {
+    message: string
+    status: number
+    locations: Location[]
+  }
+  
+  export interface Location {
+    line: number
+    column: number
+  }
+  
+  export interface Data {
+    anime: any
+  }
   export interface Data {
     Media: Media
   }
@@ -129,6 +172,7 @@ export interface WatchList {
     averageScore: number
     relations: Relations
     characters: Characters
+    recommendations:Recommendations
   }
   
   export interface Title {
@@ -190,6 +234,7 @@ export interface WatchList {
   }
   
   export interface Node2 {
+    
     id: number
     name: Name
     description?: string
@@ -250,4 +295,40 @@ export interface WatchList {
     number: number
     url: string
   }
+  
+
+  // recommendation 
+
+  export interface Recommendations {
+    nodes: Node[]
+  }
+  
+  export interface Node {
+    id: number
+    mediaRecommendation: MediaRecommendation
+  }
+  
+  export interface MediaRecommendation {
+    title: Title
+    startDate: StartDate
+    coverImage: CoverImage
+  }
+  
+  export interface Title {
+    romaji: string
+    english: string
+    native: string
+    userPreferred: string
+  }
+  
+  export interface StartDate {
+    year: number
+    month: number
+    day: number
+  }
+  
+  export interface CoverImage {
+    extraLarge: string
+  }
+  
   

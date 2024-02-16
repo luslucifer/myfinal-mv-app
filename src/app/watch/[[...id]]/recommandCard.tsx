@@ -25,7 +25,7 @@ const AnimeCard = (props: AnimeCardProps) => {
     alignItems: "center",
     // width: "max-content", // Allow card to shrink to content size
     // height:'15rem',
-    maxWidth:{xs:'10rem'}
+    width:{xs:'10rem'}
     
   };
 
@@ -39,13 +39,13 @@ const AnimeCard = (props: AnimeCardProps) => {
         <Link href={`/anime/${encodeURIComponent(name)+'-'+props.id}`} style={cardContainerStyle}>
     <Card sx={cardContainerStyle}>
     <CardActionArea sx={cardContainerStyle}>
-
-      <Box sx={ {position:'relative', height:{xs:'auto'} ,width:{xs:'auto'}}}>
-        <CardMedia
-        component={'img'}
+    <Box sx={{ position: 'relative', aspectRatio: `${460 / 648}`, width: '100%' }}>
+        <Image
           alt={`Poster of ${title}`}
           src={image}
-          sx={{position:'relative'}}
+          layout="fill"
+          objectFit="cover"
+          
         //   layout="fill" // Ensure image fills available space
         //   objectFit="contain" // Crop image while maintaining aspect ratio
           //   style={cardImageStyle} // Apply custom styles
@@ -58,7 +58,7 @@ const AnimeCard = (props: AnimeCardProps) => {
       variant="body1" sx={{}}
       >
 
-        {releaseDate}
+        Release:{releaseDate}
       </Typography>
           </CardActionArea>
     </Card>
