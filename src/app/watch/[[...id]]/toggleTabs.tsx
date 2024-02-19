@@ -72,19 +72,19 @@ export default function BasicTabs(props:BasicTabs) {
       </Box>
       <CustomTabPanel value={value} index={0}>
       <Grid container>
-          {subInfo.episodes.map((obj, index) => {
+          {subInfo.message == undefined ?subInfo.episodes.map((obj, index) => {
             const epNo = index + 1;
             return (
               <Grid item  key={index} spacing={0}>
                 <Button color={obj.id==epId ? 'error' : 'secondary'} variant="outlined" sx={{width:'100%'}} onClick={()=>{props.setEpID(obj.id)}}>{epNo}  </Button>
               </Grid>
             );
-          })}
+          }): null}
         </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
       <Grid container>
-          {dubInfo!= undefined ?dubInfo.episodes.map((obj, index) => {
+          {dubInfo.message== undefined ?dubInfo.episodes.map((obj, index) => {
             const epNo = index + 1;
             return (
               <Grid item  key={index} spacing={0}>

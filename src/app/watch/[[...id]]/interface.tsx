@@ -288,6 +288,7 @@ export interface WatchList {
     status: string
     otherName: string
     episodes: Episode[]
+    message:string
   }
   
   export interface Episode {

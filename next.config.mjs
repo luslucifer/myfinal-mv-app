@@ -10,6 +10,10 @@ const nextConfig = {images: {
       {
         protocol:'https',
         hostname:'gogocdn.net'
+      },
+      {
+        protocol:'https',
+        hostname:'image.tmdb.org'
       }
     ],
   },eslint:{

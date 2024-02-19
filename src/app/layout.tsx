@@ -7,11 +7,8 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import SearchAppBar from "./components/appBar";
 import ContextProvider from "./components/contextProvider";
-import ClipBtn from "./components/playClipBtn";
 import YtTogglePlayer from "./components/ytTogglePlayer";
-import Script from "next/script";
-import AdsScript from "./components/nextAdd";
-import Head from "next/head";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
