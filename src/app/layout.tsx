@@ -10,7 +10,7 @@ import ContextProvider from "./components/contextProvider";
 import YtTogglePlayer from "./components/ytTogglePlayer";
 import Providers from "./themeProvider/provider";
 import MuiTheme from "./themeProvider/reactMuiProvider";
-
+import { Analytics } from '@vercel/analytics/react';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,6 +51,7 @@ export default function RootLayout({
           </Providers>
         </ContextProvider>
         {/* </ThemeProvider> */}
+        <Analytics></Analytics>
         </body>
     </html>
   );
