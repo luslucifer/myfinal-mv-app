@@ -8,6 +8,8 @@ import '@fontsource/roboto/700.css';
 import SearchAppBar from "./components/appBar";
 import ContextProvider from "./components/contextProvider";
 import YtTogglePlayer from "./components/ytTogglePlayer";
+import Providers from "./themeProvider/provider";
+import MuiTheme from "./themeProvider/reactMuiProvider";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -35,11 +37,18 @@ export default function RootLayout({
       <body className={inter.className}>
         {/* <ThemeProvider> */}
         <ContextProvider>
+          <Providers>
+
+          <MuiTheme>
+
         <YtTogglePlayer></YtTogglePlayer>
-        <div className="grey">
+        <div id="grey">
         <SearchAppBar></SearchAppBar>
         {children}
         </div>
+          </MuiTheme>
+
+          </Providers>
         </ContextProvider>
         {/* </ThemeProvider> */}
         </body>
