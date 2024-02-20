@@ -34,6 +34,7 @@ import Link from "next/link";
 import Review from "@/app/components/rivewBox";
 import ClipBtn from "@/app/components/playClipBtn";
 import SeasonTable from "@/app/components/tvtable";
+import IframeCard from "@/app/movie/[id]/iframeCard";
 
 async function getData(id: number) {
   const res = await fetch(
@@ -139,29 +140,7 @@ const vote_average = Math.round(tvData.vote_average*10)
     
   return (
     <Container>
-      <Card
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          paddingBottom: "0%",
-          height: {
-            xs: "100%",
-            sm: "100%",
-            md: "18rem",
-            lg: "20rem",
-            xl: "24rem",
-          },
-        }}
-      >
-        <iframe
-          width="100%"
-          height="100%"
-          src={`https://vidsrc.to/embed/tv/${id}/${ss}/${ep}`}
-          title={tvData.name}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        ></iframe>
-      </Card>
+<IframeCard id={tvData.id} ss={ss} ep={ep} isTv={true} title={tvData.name}></IframeCard>
       <Typography variant="h6" component={"h4"} align="center">
         {tvData.name}
         {`(${tvData.first_air_date.slice(0, 4)})`}{" "}
@@ -282,29 +261,7 @@ const vote_average = Math.round(tvData.vote_average*10)
       </Card>
 
           <Review obj={reviewL}></Review>
-      <Paper sx={{ marginTop: "1rem" }}>
-        <Card>
-          <CardContent>
-            <Typography variant="h4">More Like This</Typography>
-          </CardContent>
-          <CardContent
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              overflowX: "scroll",
-              justifyContent: "space-between",
-            }}
-          >
-            {recommend.results.length>0?recommend.results.map((obj, index) => {
-              return (
-                <Box key={index} sx={{ marginRight: "0.5rem" }}>
-                  <PosterCard obj={obj} minWidth="14rem"></PosterCard>
-                </Box>
-              );
-            }):<Typography variant="body2"> We Will shortly update This</Typography>}
-          </CardContent>
-        </Card>
-      </Paper>
+      
 
       <Card sx={{ marginTop: "1rem" }}>
         <CardContent>

@@ -4,17 +4,15 @@ import AnimePlayer from "./animePlayer";
 import { AnimeInfo } from "./interface";
 import { domain } from "@/app/anime/[[...id]]/page";
 import { useEffect,useState } from "react";
-import BasicTabs from "./toggleTabs";
+import EpRenderer from "./epRenderer";
 interface PlayBox {
-  subInfo: AnimeInfo;
-  dubInfo: AnimeInfo;
+  info: AnimeInfo;
 }
 
 export default function PlayBox(props: PlayBox) {
 
-    const subInfo = props.subInfo
-    const dubInfo = props.dubInfo
-    const [epId,setEpId] = useState(subInfo.episodes[0].id)
+    const info = props.info
+    const [epId,setEpId] = useState(info.episodes[0].id)
     const [watchList,setWatchList] = useState({})
   useEffect(() => {
     fetch(domain + "anime/gogoanime/watch/"+epId).then(
@@ -30,7 +28,7 @@ export default function PlayBox(props: PlayBox) {
   return (
     <Box>
       <AnimePlayer obj={watchList}></AnimePlayer>
-      <BasicTabs infoSub={subInfo} infoDub={dubInfo} epId={epId} setEpID={setEpId} ></BasicTabs>
+      <EpRenderer  info={info} epId={epId} setEpID={setEpId}></EpRenderer>
     </Box>
   );
 }

@@ -31,6 +31,7 @@ import CircularProgressbarComponent from "@/app/components/circularProgressBar";
 import Link from "next/link";
 import Review from "@/app/components/rivewBox";
 import ClipBtn from "@/app/components/playClipBtn";
+import IframeCard from "./iframeCard";
 
 async function getData(id: number) {
   const res = await fetch(
@@ -115,29 +116,7 @@ export default async function Movie({ params }) {
 const vote_average = Math.round(movieData.vote_average*10)
   return (
     <Container>
-      <Card
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          paddingBottom: "0%",
-          height: {
-            xs: "100%",
-            sm: "100%",
-            md: "18rem",
-            lg: "20rem",
-            xl: "24rem",
-          },
-        }}
-      >
-        <iframe
-          width="100%"
-          height="100%"
-          src={`https://vidsrc.to/embed/movie/${id}`}
-          title={movieData.title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        ></iframe>
-      </Card>
+      <IframeCard id={id} title={movieData.title} ep={1} ss={1} isTv={false}></IframeCard>
       <Typography variant="h6" component={"h4"} align="center">
         {movieData.title}
         {`(${movieData.release_date.slice(0, 4)})`}{" "}

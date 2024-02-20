@@ -47,7 +47,8 @@ useEffect(() => {
     <Stack justifyContent={"center"} alignContent={"center"} sx={{}}>
       <Stack
         sx={{
-          height: { xs: "8rem", sm: "32rem" },
+          aspectRatio:`${16/9}`
+          // height: { xs: "8rem", sm: "32rem" },
           // width: { xs: "100vw", sm: "80vw" },
         }}
         justifyContent={"center"}
