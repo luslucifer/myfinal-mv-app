@@ -7,6 +7,7 @@ import {
   CardMedia,
   IconButton,
   Stack,
+  Avatar,
 } from "@mui/material";
 import { options } from "@/app/data-storage/fuctions-data";
 import {
@@ -29,6 +30,7 @@ import {
 import { formatDateToWords } from "@/app/data-storage/fuctions-data";
 import PosterCard from "@/app/components/posterCard";
 import CollapsibleTable from "@/app/components/colapceableProfileTable";
+import Image from "next/image";
 interface Profile {
   id: string;
 }
@@ -70,7 +72,6 @@ async function CastImages(id: number) {
 }
 
 
-
 export default async function Profile({ params }: any) {
   const splited = params.id.split(/-/g);
   const id = splited[splited.length - 1];
@@ -101,49 +102,49 @@ export default async function Profile({ params }: any) {
         key !== "freebase_mid" &&
         key !== "freebase_id"
       ) {
-        const splited = key.split(/_/g);
-        const iconName = splited[0];
-        const capitalizedIconName = capitalizeFirstLetter(iconName);
+        // const splited = key.split(/_/g);
+        // const iconName = splited[0];
+        // const capitalizedIconName = capitalizeFirstLetter(iconName);
 
         if (key === "facebook_id") {
           return (
-            <IconButton key={index}>
+            <IconButton key={index} href={`https://www.facebook.com/${CastExternalId.facebook_id}`}>
               <FaFacebook />
             </IconButton>
           );
         } else if (key === "instagram_id") {
           return (
-            <IconButton key={index}>
+            <IconButton key={index} href={`https://www.instagram.com/${CastExternalId.instagram_id}`}>
               <FaInstagram />
             </IconButton>
           );
-        } else if (key === "youtube_id") {
+        } else if (key === "youtube_id")  {
           return (
-            <IconButton key={index}>
+            <IconButton key={index} href={`https://www.youtube.com/${CastExternalId.youtube_id}`}>
               <FaYoutube />
             </IconButton>
           );
         } else if (key === "wikidata_id") {
           return (
-            <IconButton key={index}>
+            <IconButton key={index} href={`https://www.wikidata.org/wiki/${CastExternalId.wikidata_id}`}>
               <FaWikipediaW />
             </IconButton>
           );
         } else if (key === "twitter_id") {
           return (
-            <IconButton key={index}>
+            <IconButton key={index} href={`https://twitter.com/${CastExternalId.twitter_id}`}>
               <FaTwitter />
             </IconButton>
           );
         } else if (key === "imdb_id") {
           return (
-            <IconButton key={index}>
+            <IconButton key={index} href={`https://www.imdb.com/name/${CastExternalId.imdb_id}`}>
               <FaImdb />
             </IconButton>
           );
         } else if (key === "tiktok_id") {
           return (
-            <IconButton key={index}>
+            <IconButton key={index} href={`https://www.tiktok.com/${CastExternalId.tiktok_id}`}>
               <FaTiktok />
             </IconButton>
           );
@@ -168,16 +169,20 @@ export default async function Profile({ params }: any) {
       return "we cant tell you";
     }
   }
+  const castChecker:boolean =  CastImage.profiles.length !=0 ? true: false 
 
   return (
     <Container>
       <Grid container>
         <Grid item xs={12} sm={3}>
           <Card>
-            <CardMedia
+            {/* <CardMedia
               component={"img"}
-              src={`https://image.tmdb.org/t/p/original${CastImage.profiles[0].file_path}`}
-            />
+              src={`https://image.tmdb.org/t/p/original${CastImage.profiles.length ==0 ? null: CastImage.profiles[0].file_path }`}
+            /> */}
+            <Box sx={{aspectRatio:castChecker?`${CastImage.profiles[0].width/CastImage.profiles[0].height}` : null,minWidth:'100%',position:'relative'}}>
+            <Image src={`https://image.tmdb.org/t/p/original${CastImage.profiles.length ==0 ? null: CastImage.profiles[0].file_path }`} layout="fill" objectFit="cover" alt={`profile image of ${CastDetails.name}`}></Image>
+            </Box>
           </Card>
           <Typography variant="h6" align="center">
             {Details.name}
