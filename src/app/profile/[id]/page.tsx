@@ -197,7 +197,7 @@ export default async function Profile({ params }: any) {
             </Box>
             <Box className="BirthDay">
               <Typography variant="h6"> BirthDate</Typography>
-              <Typography variant="body1">{formatDateToWords(Details.birthday)}</Typography>
+              {/* <Typography variant="body1">{formatDateToWords(Details.birthday)}</Typography> */}
             </Box>
             <Box className="place of birth">
               <Typography variant="h6"> Place of Biarth</Typography>
@@ -211,7 +211,7 @@ export default async function Profile({ params }: any) {
             </Box>
             <Box className="also known as" sx={{margin:'1rem'}}>
               <Typography variant="h6"> Also Known As</Typography>
-              {/* <Typography variant="body1">{Details.also_known_as}</Typography> */}
+              <Typography variant="body1">{Details.also_known_as}</Typography>
               {Details.also_known_as.map((item,index)=>{
                 return ( <Typography variant="body2" key={index}> {item}</Typography>)
               })}

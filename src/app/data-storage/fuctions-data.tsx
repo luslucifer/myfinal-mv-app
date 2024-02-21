@@ -68,10 +68,16 @@ const options = {
       'September', 'October', 'November', 'December'
     ];
   
-    const [year, month, day] = dateString.split('-');
-    const monthWord = months[parseInt(month, 10) - 1];
-  
-    return `${monthWord} ${parseInt(day, 10)}, ${year}`;
+    if(dateString!=undefined){
+
+      const [year, month, day] = dateString.split(/-/g);
+      
+      
+      const monthWord = months[parseInt(month, 10) - 1];
+      
+      return `${monthWord} ${parseInt(day, 10)}, ${year}`;
+    }
+    return dateString
   }
   
 
