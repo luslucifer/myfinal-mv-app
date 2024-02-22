@@ -31,6 +31,45 @@ import { formatDateToWords } from "@/app/data-storage/fuctions-data";
 import PosterCard from "@/app/components/posterCard";
 import CollapsibleTable from "@/app/components/colapceableProfileTable";
 import Image from "next/image";
+
+import { Metadata, ResolvingMetadata } from 'next'
+import Description from "@/app/description";
+ 
+type Props = {
+  params:string[]
+}
+ 
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const splited = params.id.split(/-/g);
+  const id = splited[splited.length - 1];
+
+  const [details, creadits, castExternalIds, castImages] = await Promise.all([
+    CastDetails(id),
+    CastCreadits(id),
+    CastExternalIds(id),
+    CastImages(id),
+  ]);
+
+  const Details: CastDetails = details;
+  const Creadits: CastCreadits = creadits;
+  const CastExternalId: CastExternalIds = castExternalIds;
+  const CastImage: CastImages = castImages;
+
+
+  
+  return {
+    title:Details.name,
+    keywords:Details.also_known_as.join(','),
+    description:Details.biography
+    
+  }
+}
+
+
+
 interface Profile {
   id: string;
 }
@@ -70,6 +109,10 @@ async function CastImages(id: number) {
 
   return res.json();
 }
+
+
+
+
 
 
 export default async function Profile({ params }: any) {

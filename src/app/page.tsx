@@ -9,6 +9,10 @@ import { TrendingAll } from "./interface/trendingAll";
 import { domain } from "./anime/[[...id]]/page";
 import { TopAiringAnime } from "./interface/topAiring";
 import AnimeCard from "./anime/[[...id]]/animecard";
+import Description from "./description";
+import { Metadata } from "next";
+
+
 
 export interface MovieResponse {
   page: number;
@@ -45,16 +49,19 @@ export default async function Home() {
   return (
     <main className="">
       <Container>
-        <Box className='landingPage' sx={{aspectRatio:`${2.9}`,width:'100%',position:'relative',display:'flex' ,justifyContent:'center' , alignCpntent:'center'}}>
+        {/* <Box className='landingPage' sx={{aspectRatio:`${2.7}`,width:'100%',position:'relative',display:'flex' ,justifyContent:'center' , alignCpntent:'center'}}>
 
-        <Image objectFit="cover" src={'/images/landing.png'} layout="fill" alt="my landing image " style={{zIndex:'0'}}></Image>
+        <Image objectFit="cover" src={'/images/landing.jpg'} layout="fill" alt="my landing image " style={{zIndex:'0'}}></Image>
         <Box position={'absolute'} top={'25%'}>
         <Typography textAlign={'center'} variant="h3"  color={''} > Welcome to MovieKex </Typography>
         <Typography textAlign={'center'} component="h1">Thousands of Movies And TV Shows are  Ready to Stream</Typography>
 
         </Box>
-        </Box>
+        </Box> */}
 
+<Typography textAlign={'center'}>
+<Description></Description>
+</Typography>
         <Box className='popular movies'>
 
           <Typography variant="h4"> Popular</Typography>
@@ -82,6 +89,7 @@ export default async function Home() {
     })}
 </Stack>
     </Box>
+
 
 </Container>
 

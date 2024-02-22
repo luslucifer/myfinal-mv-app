@@ -1,7 +1,7 @@
 import { Container, Grid, Stack } from "@mui/material";
-import { SearchAnime,Qry, SearchedQry } from "./interface";
+import { SearchAnime, Qry, SearchedQry } from "./interface";
 import AnimeCard from "./animecard";
-import { AnilistUrl } from "@/app/watch/[[...id]]/page";
+import { AnilistUrl } from "@/app/watch/[[...id]]/page.client";
 export const domain = "https://consumet-api-hp98.onrender.com/";
 
 async function searchingAnime(qry: string) {
@@ -9,27 +9,26 @@ async function searchingAnime(qry: string) {
   return res.json();
 }
 
-async function getNames(qry:string){
+async function getNames(qry: string) {
   var variables = {
     search: qry,
-    
-};
+  };
 
-const options = {
-  method: 'POST',
-  headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-  },
-  body: JSON.stringify({
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
       query: Qry,
-      variables: variables
-  })
-};
+      variables: variables,
+    }),
+  };
 
-const res = await fetch(AnilistUrl,options)
+  const res = await fetch(AnilistUrl, options);
 
-return res.json()
+  return res.json();
 }
 
 export default async function ({ params }) {
@@ -38,26 +37,30 @@ export default async function ({ params }) {
   searchArr.pop();
   const searchQry = decodeURIComponent(searchArr.join(" "));
 
-  const getTitles:SearchedQry = await getNames(searchQry)
-  const searchedRes: SearchAnime = await searchingAnime(encodeURIComponent(getTitles.data.Media.title.userPreferred));
+  const getTitles: SearchedQry = await getNames(searchQry);
+  const searchedRes: SearchAnime = await searchingAnime(
+    encodeURIComponent(getTitles.data.Media.title.userPreferred)
+  );
 
   return (
     <Container>
       {JSON.stringify(getTitles)}
       <p>{searchQry}</p>
-      <Grid container sx={{display:'flex',justifyContent:'center'}} gap={'15px'}>
+      <Grid
+        container
+        sx={{ display: "flex", justifyContent: "center" }}
+        gap={"15px"}
+      >
         {searchedRes.results.length != 0
           ? searchedRes.results.map((obj, index) => {
-            
               return (
-               <Grid item key={index} >
-              <AnimeCard obj={obj} key={index}></AnimeCard>
-               </Grid>
+                <Grid item key={index}>
+                  <AnimeCard obj={obj} key={index}></AnimeCard>
+                </Grid>
               );
             })
           : null}
       </Grid>
-      
     </Container>
   );
 }
