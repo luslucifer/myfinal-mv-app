@@ -35,6 +35,9 @@ import Review from "@/app/components/rivewBox";
 import ClipBtn from "@/app/components/playClipBtn";
 import SeasonTable from "@/app/components/tvtable";
 import IframeCard from "@/app/movie/[id]/iframeCard";
+import type { Metadata, ResolvingMetadata } from 'next'
+import { GetKeys } from "./interfaces/getKeys";
+import { AlignedKrywords } from "@/app/movie/[id]/keywords";
 
 async function getData(id: number) {
   const res = await fetch(
@@ -99,21 +102,52 @@ async function getSeasonDetails(id:number,ss:number){
 
 }
 
-export default async function Movie({ params }) {
+
+interface Props{
+  id:string[]
+}
+
+
+async function getKeys(id:number) {
+  const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/keywords`, options)
+  return res.json()
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
   const querry = params.id[0];
   const splited = querry.split(/-/g);
   const id = splited[splited.length - 1];
-
-
   const ss = params.id[1] || 1
   const ep = params.id[2] || 1
+  const [data,seasonInfo,keyWords]:[TvDetailsM,SeasonM,GetKeys] = await Promise.all([getData(id),getSeasonDetails(id,ss),getKeys(id)])
+  
+  const keyWordString:string = AlignedKrywords(undefined,keyWords) 
+  
 
-  //router querry starts form here 
-  // const router = useRouter()
-  // const {ss,ep} = router.query
+ 
+  return {
+    title:`${seasonInfo.episodes[ep-1].name}: Dive into ${data.name} Season ${ss} , Episode ${ep} (Free!) `,
+    description:data.overview,
+    keywords:keyWordString,
+    openGraph:{
+      title:`${seasonInfo.episodes[ep-1].name}: Dive into ${data.name} Season ${ss} , Episode ${ep} (Free!) `,
+      description:seasonInfo.overview,
+      images:`https://image.tmdb.org/t/p/original/${data.backdrop_path}`
+    }
+  }
+}
 
-  // const [ss,ep]=[1,1]
 
+export default async function Tv({ params }) {
+  const querry = params.id[0];
+  const splited = querry.split(/-/g);
+  const id = splited[splited.length - 1];
+  const ss = params.id[1] || 1
+  const ep = params.id[2] || 1
   const [data, casts, recommendations, similar, videos, images,reviews,seasonInfo] =
     await Promise.all([
       getData(id),
@@ -134,7 +168,9 @@ export default async function Movie({ params }) {
   const similarL: RootSimilarM = similar;
   const reviewL:RootReviewM = reviews;
   const seasonL:SeasonM = seasonInfo
-const vote_average = Math.round(tvData.vote_average*10)
+
+
+  const vote_average = Math.round(tvData.vote_average*10)
 
 
     
@@ -302,4 +338,3 @@ const vote_average = Math.round(tvData.vote_average*10)
     </Container>
   );
 }
-// hellow

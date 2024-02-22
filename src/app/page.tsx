@@ -1,10 +1,8 @@
 import { options } from "./data-storage/fuctions-data";
 import { Movie } from "./data-storage/fuctions-data";
 import { Stack, Typography } from "@mui/material";
-import MediaBox from "./components/mediaBox";
 import { Container,Box } from "@mui/material";
 import Image from "next/image";
-import PosterCard from "./components/posterCard";
 import TmdbScroller from "./components/tmdbScroller";
 import { PopularTv } from "./interface/popularTv";
 import { TrendingAll } from "./interface/trendingAll";
@@ -47,11 +45,11 @@ export default async function Home() {
   return (
     <main className="">
       <Container>
-        <Box className='landingPage' sx={{aspectRatio:`${5500/3667}`,width:'100%',position:'relative',display:'flex' ,justifyContent:'center' , alignCpntent:'center'}}>
+        <Box className='landingPage' sx={{aspectRatio:`${2.9}`,width:'100%',position:'relative',display:'flex' ,justifyContent:'center' , alignCpntent:'center'}}>
 
-        <Image objectFit="cover" src={'/images/landing.jpg'} layout="fill" alt="my landing image " style={{zIndex:'0'}}></Image>
+        <Image objectFit="cover" src={'/images/landing.png'} layout="fill" alt="my landing image " style={{zIndex:'0'}}></Image>
         <Box position={'absolute'} top={'25%'}>
-        <Typography textAlign={'center'} variant="h3"  color={'pink'} > Welcome to MovieKex </Typography>
+        <Typography textAlign={'center'} variant="h3"  color={''} > Welcome to MovieKex </Typography>
         <Typography textAlign={'center'} component="h1">Thousands of Movies And TV Shows are  Ready to Stream</Typography>
 
         </Box>

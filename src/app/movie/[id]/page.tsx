@@ -32,7 +32,9 @@ import Link from "next/link";
 import Review from "@/app/components/rivewBox";
 import ClipBtn from "@/app/components/playClipBtn";
 import IframeCard from "./iframeCard";
-
+import { KeyWordObj } from "./keyWordsInterface";
+import { AlignedKrywords } from "./keywords";
+import { Metadata,ResolvingMetadata } from "next";
 async function getData(id: number) {
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
@@ -88,13 +90,27 @@ async function getReview(id: number) {
 
   return res.json();
 }
+export async function getKeyWords(id:number,type:string){
+    const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/keywords`, options)
+    return res.json()
+  }
 
-export default async function Movie({ params }) {
+
+interface Props{
+  id:string
+}
+
+export async function generateMetadata(
+  {params}: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
   const querry = params.id;
   const splited = querry.split(/-/g);
   const id = splited[splited.length - 1];
+  const title = splited[0]
 
-  const [data, casts, recommendations, similar, videos, images,reviews] =
+  const [data, casts, recommendations, similar, videos, images,reviews,keywords] =
     await Promise.all([
       getData(id),
       getCasts(id),
@@ -102,7 +118,8 @@ export default async function Movie({ params }) {
       getSimilars(id),
       getVideos(id),
       getImage(id),
-      getReview(id)
+      getReview(id),
+      getKeyWords(id,'movie')
     ]);
 
   const movieData: MovieDetailsM = data;
@@ -112,10 +129,58 @@ export default async function Movie({ params }) {
   const videoL: RootVideosM = videos;
   const similarL: RootSimilarM = similar;
   const reviewL:RootReviewM = reviews;
+  const Keywords:KeyWordObj = keywords
+
+ 
+ 
+  return {
+    title:`Watch ${title} Full Movie Watch Online for Free`,
+    description:movieData.overview,
+    keywords:AlignedKrywords(keywords),
+    openGraph:{
+      title:`Watch ${title} Full Movie Watch Online for Free`,
+      description:movieData.overview,
+      images:`https://image.tmdb.org/t/p/original/${movieData.backdrop_path}`
+    }
+
+    
+  }
+}
+
+
+export default async function Movie({ params }:Props) {
+  const querry = params.id;
+  const splited = querry.split(/-/g);
+  const id = splited[splited.length - 1];
+
+  const [data, casts, recommendations, similar, videos, images,reviews,keywords] =
+    await Promise.all([
+      getData(id),
+      getCasts(id),
+      getRecomandations(id),
+      getSimilars(id),
+      getVideos(id),
+      getImage(id),
+      getReview(id),
+      getKeyWords(id,'movie')
+    ]);
+
+  const movieData: MovieDetailsM = data;
+  const credits: CreditM = casts;
+  const recommend: RootRecomandationM = recommendations;
+  const imageL: RootImagesM = images;
+  const videoL: RootVideosM = videos;
+  const similarL: RootSimilarM = similar;
+  const reviewL:RootReviewM = reviews;
+  const Keywords:KeyWordObj = keywords
+
+  
 
 const vote_average = Math.round(movieData.vote_average*10)
   return (
     <Container>
+      {JSON.stringify(params)}
+      <Typography component={'h1'}>{AlignedKrywords(Keywords)}</Typography>
       <IframeCard id={id} title={movieData.title} ep={1} ss={1} isTv={false}></IframeCard>
       <Typography variant="h6" component={"h4"} align="center">
         {movieData.title}
