@@ -179,7 +179,6 @@ export default async function Movie({ params }:Props) {
 const vote_average = Math.round(movieData.vote_average*10)
   return (
     <Container>
-      {JSON.stringify(params)}
       <Typography component={'h1'}>{AlignedKrywords(Keywords)}</Typography>
       <IframeCard id={id} title={movieData.title} ep={1} ss={1} isTv={false}></IframeCard>
       <Typography variant="h6" component={"h4"} align="center">
