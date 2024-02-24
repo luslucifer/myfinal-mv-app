@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<siteindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd"
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <sitemap>
+        <loc>https://www.moviekex.com/tvSitemaps/tv0.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.moviekex.com/tvSitemaps/tv1.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.moviekex.com/tvSitemaps/tv2.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.moviekex.com/tvSitemaps/tv3.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.moviekex.com/tvSitemaps/tv4.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.moviekex.com/tvSitemaps/tv5.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.moviekex.com/tvSitemaps/tv6.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.moviekex.com/tvSitemaps/tv7.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.moviekex.com/tvSitemaps/tv8.xml</loc>
+    </sitemap>
+</siteindex>
