@@ -54,6 +54,9 @@ export default function RootLayout({
       <body className={inter.className}>
         {/* <ThemeProvider> */}
         <GoogleAnalytics gaId="G-8BC39G02XL" />
+        <GoogleAnalytics gaId="G-59HX2N2EWS">
+          {/* moviekex.com */}
+        </GoogleAnalytics>
 
         <ContextProvider>
           <Providers>
