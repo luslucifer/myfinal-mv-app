@@ -18,7 +18,10 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "MovieKex - Stream HD Movies Online for Free | Best Quality Movies and TV Series | No Subscription or Account Needed",
-  
+  icons:{
+    icon:['/favicon_io/favicon.ico'],
+    apple:['/favicon_io/apple-touch-icon.png'],
+  } ,
   description: "Discover a world of entertainment at MovieKex, your ultimate destination for streaming HD movies and TV series for free. Dive into a vast collection of films from around the globe, including the United Kingdom, Italy, Canada, Spain, Germany, France, Australia, and Japan. MovieKex serves as a comprehensive index of legal movie links available on the internet, offering high-speed streaming for an unparalleled viewing experience.",
   keywords:`
   MovieKex, HD Movies, Free Streaming, TV Series, Subscription-Free, Genres, High-Speed Streaming, Global Movies, Quality, Device Compatibility, Time and Cost Efficiency, February 2024 Update, Server Costs, Net-Zero Profit, User Experience.`,
