@@ -117,7 +117,7 @@ export default function SearchAppBar() {
               }
 
               return (
-                <Link href={`/${type()}/${title2()}`}>
+                <Link href={`/${type()}/${title2()}`} onClick={()=>{setOpen(false)}}>
                   <Grid container>
                     <Grid item xs={1}>
                       {/* <Poster poster_path={option.poster_path}></Poster> */}

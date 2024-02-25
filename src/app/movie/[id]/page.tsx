@@ -108,7 +108,7 @@ export async function generateMetadata(
   const querry = params.id;
   const splited = querry.split(/-/g);
   const id = splited[splited.length - 1];
-  const title = splited[0]
+  
 
   const [data, casts, recommendations, similar, videos, images,reviews,keywords] =
     await Promise.all([
@@ -134,11 +134,11 @@ export async function generateMetadata(
  
  
   return {
-    title:`Watch ${title} Full Movie Watch Online for Free`,
+    title:`Watch ${movieData.title} Full Movie Watch Online for Free`,
     description:movieData.overview,
     keywords:AlignedKrywords(keywords),
     openGraph:{
-      title:`Watch ${title} Full Movie Watch Online for Free`,
+      title:`Watch ${movieData.title} Full Movie Watch Online for Free`,
       description:movieData.overview,
       images:`https://image.tmdb.org/t/p/original/${movieData.backdrop_path}`
     }
