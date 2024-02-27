@@ -4,6 +4,7 @@ import AnimeCard from "./recommandCard"
 import CharecterBox from "./chareterBox";
 import { Qry } from "./interface";
 import Image from "next/image";
+import NativeBanner from "@/app/ads/nativeBanner";
 
 interface Anilist {
     animeDetails:Qry
@@ -43,6 +44,7 @@ export default function AnilistBox(props:Anilist){
                 </Grid>
             </Card>
     
+    <NativeBanner></NativeBanner>
     
             <Stack flexDirection={'row'} gap={2} overflow={'scroll'}>
                 {

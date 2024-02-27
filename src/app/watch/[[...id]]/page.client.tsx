@@ -3,6 +3,7 @@ import { domain } from "@/app/anime/[[...id]]/page";
 import { Qry, qry } from "./interface";
 import PlayBox from "./playBox";
 import AnilistBox from "./anilistBox";
+import NativeBanner from "@/app/ads/nativeBanner";
 
 
 export var AnilistUrl = "https://graphql.anilist.co";
