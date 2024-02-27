@@ -6,6 +6,9 @@ interface poster {
 
 export default function Poster(props : poster){
 const obj = props.obj
+    if(obj == undefined){
+        return null
+    }
 
     return(
         <CardMedia

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { WatchList } from "./interface";
 import { Stack } from "@mui/material";
+import Link from "next/link";
 
 interface AnimePlayerProps {
   url: string;
@@ -54,6 +55,7 @@ useEffect(() => {
         justifyContent={"center"}
         alignContent={"center"}
       >
+        <Link href={`https://www.profitablegatecpm.com/ws902875?key=4b055897bd078286dae0726381749165`} target="_blank" >
         <ReactPlayer
           url={url}
           height={"100%"}
@@ -61,7 +63,8 @@ useEffect(() => {
           controls
           light
           playing
-        />
+          />
+          </Link>
         {/* {JSON.stringify(obj)} */}
       </Stack>
     </Stack>
