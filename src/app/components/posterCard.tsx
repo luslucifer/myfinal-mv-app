@@ -6,6 +6,7 @@ import { Movie, formatDateToWords } from "../data-storage/fuctions-data";
 import Link from "next/link";
 import CircularProgressbarComponent from "./circularProgressBar";
 import ClipBtn from "./playClipBtn";
+import Poster from "./poster";
 
 interface PosterCard {
   obj: Movie;
@@ -51,23 +52,7 @@ export default function PosterCard(props: PosterCard) {
               backgroundImage:`https://image.tmdb.org/t/p/w45/${obj.poster_path}`
             }}
           >
-            <CardMedia
-              component="img"
-              src={`https://image.tmdb.org/t/p/original/${obj.poster_path}`}
-              srcSet={`
-    https://image.tmdb.org/t/p/w92/${obj.poster_path} 92w,
-    https://image.tmdb.org/t/p/w154/${obj.poster_path} 154w,
-    https://image.tmdb.org/t/p/w185/${obj.poster_path} 185w,
-    https://image.tmdb.org/t/p/w342/${obj.poster_path} 342w,
-    https://image.tmdb.org/t/p/w500/${obj.poster_path} 500w,
-    https://image.tmdb.org/t/p/w780/${obj.poster_path} 780w,
-    https://image.tmdb.org/t/p/original/${obj.poster_path} 1080w
-  `}
-              loading="lazy"
-              alt={`tmdb poster of ${title}`}
-              // style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              sx={{ heught: "100%", width: "100%", objectFit: "cover" }}
-            />
+            <Poster obj={obj}></Poster>
           </Box>
         </Link>
         <CardContent>

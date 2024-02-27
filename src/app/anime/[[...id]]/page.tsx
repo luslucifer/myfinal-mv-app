@@ -44,7 +44,6 @@ export default async function ({ params }) {
 
   return (
     <Container>
-      {JSON.stringify(getTitles)}
       <p>{searchQry}</p>
       <Grid
         container
