@@ -34,6 +34,7 @@ import Image from "next/image";
 
 import { Metadata, ResolvingMetadata } from 'next'
 import Description from "@/app/description";
+import NativeBanner from "@/app/ads/nativeBanner";
  
 type Props = {
   params:string[]
@@ -285,6 +286,7 @@ export default async function Profile({ params }: any) {
                 })}
             </Stack>
           </Box>
+          <NativeBanner></NativeBanner>
         <CollapsibleTable cast={Creadits.cast}></CollapsibleTable>
         </Grid>
       </Grid>

@@ -4,6 +4,7 @@ import ReactPlayer from "react-player";
 import { WatchList } from "./interface";
 import { Stack } from "@mui/material";
 import Link from "next/link";
+import { Banner720x } from "@/app/ads/banner720x";
 
 interface AnimePlayerProps {
   url: string;
@@ -16,7 +17,7 @@ export default function AnimePlayer(props: AnimePlayerProps) {
     "https://www084.vipanicdn.net/streamhls/99886995750a29f143b54055f8a4ba3e/ep.1.1703869945.1080.m3u8"
   );
   const qualities = ["1080p", "720p", "480p", "360p", "default"];
-
+const [add,setAdd] = useState('https://www.profitablegatecpm.com/ws902875?key=4b055897bd078286dae0726381749165')
 useEffect(() => {
   if (obj.message === undefined && Object.keys(obj).length > 1) {
     let selectedQuality = null;
@@ -44,6 +45,16 @@ useEffect(() => {
   }
 }, [obj]);
 
+function onPlayerClick(){
+  const addUrl = 'https://www.profitablegatecpm.com/ws902875?key=4b055897bd078286dae0726381749165'
+  setAdd('')
+  console.log(add)
+  setTimeout(()=>{
+    setAdd(addUrl)
+  },10000)
+}
+
+
   return (
     <Stack justifyContent={"center"} alignContent={"center"} sx={{}}>
       <Stack
@@ -55,7 +66,7 @@ useEffect(() => {
         justifyContent={"center"}
         alignContent={"center"}
       >
-        <Link href={`https://www.profitablegatecpm.com/ws902875?key=4b055897bd078286dae0726381749165`} target="_blank" >
+
         <ReactPlayer
           url={url}
           height={"100%"}
@@ -64,8 +75,6 @@ useEffect(() => {
           light
           playing
           />
-          </Link>
-        {/* {JSON.stringify(obj)} */}
       </Stack>
     </Stack>
   );

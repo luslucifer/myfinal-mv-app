@@ -71,6 +71,7 @@ export default function RootLayout({
         </ContextProvider>
         {/* </ThemeProvider> */}
         <Analytics></Analytics>
+        <Script type='text/javascript' src='//pl22637046.profitablegatecpm.com/44/41/00/444100b12a31a1870edcab8d086742ab.js'></Script>
         </body>
     </html>
   );

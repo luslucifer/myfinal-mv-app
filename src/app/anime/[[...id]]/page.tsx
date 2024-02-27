@@ -2,6 +2,7 @@ import { Container, Grid, Stack } from "@mui/material";
 import { SearchAnime, Qry, SearchedQry } from "./interface";
 import AnimeCard from "./animecard";
 import { AnilistUrl } from "@/app/watch/[[...id]]/page.client";
+import NativeBanner from "@/app/ads/nativeBanner";
 export const domain = "https://consumet-api-hp98.onrender.com/";
 
 async function searchingAnime(qry: string) {
@@ -60,6 +61,7 @@ export default async function ({ params }) {
             })
           : null}
       </Grid>
+      <NativeBanner></NativeBanner>
     </Container>
   );
 }

@@ -9,12 +9,10 @@ import {
   Typography,
   Button,
   CardContent,
-  Paper,
   CardActionArea,
 } from "@mui/material";
 import Poster from "@/app/components/poster";
 import {
-  Cast,
   CreditM,
   TvDetailsM,
   RootRecomandationM,
@@ -38,6 +36,7 @@ import IframeCard from "@/app/movie/[id]/iframeCard";
 import type { Metadata, ResolvingMetadata } from 'next'
 import { GetKeys } from "./interfaces/getKeys";
 import { AlignedKrywords } from "@/app/movie/[id]/keywords";
+import NativeBanner from "@/app/ads/nativeBanner";
 
 async function getData(id: number) {
   const res = await fetch(
@@ -190,7 +189,7 @@ export default async function Tv({ params }) {
           alignContent={"center"}
         >
           <Card sx={{ height: "100%", alignContent: "center" }}>
-            <Poster poster_path={tvData.poster_path}></Poster>
+            <Poster obj={tvData}></Poster>
           </Card>
         </Grid>
         <Grid item lg={8} xs={8}>
@@ -244,7 +243,7 @@ export default async function Tv({ params }) {
       <SeasonTable details={tvData} seasonData={seasonInfo} currentEp={ep}>
 
       </SeasonTable>
-
+<NativeBanner></NativeBanner>
       <Card sx={{ marginTop: "1rem" }} className="photo">
         <CardContent>
           <Typography variant="h4"> Photos</Typography>
