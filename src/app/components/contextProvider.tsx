@@ -18,7 +18,7 @@ export default function ContextProvider({
   children: ReactNode;
 }>) {
   const [showTrailer, setShowTrailer] = useState(false);
-  const [ytKey, setYtKey] = useState('L02aPFAhTCk');
+  const [ytKey, setYtKey] = useState('');
 
   // Use a more explicit type for the context value
   const contextValue: MyContextType = {

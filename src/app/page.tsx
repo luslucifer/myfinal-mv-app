@@ -2,7 +2,6 @@ import { options } from "./data-storage/fuctions-data";
 import { Movie } from "./data-storage/fuctions-data";
 import { Stack, Typography } from "@mui/material";
 import { Container,Box } from "@mui/material";
-import Image from "next/image";
 import TmdbScroller from "./components/tmdbScroller";
 import { PopularTv } from "./interface/popularTv";
 import { TrendingAll } from "./interface/trendingAll";
@@ -10,7 +9,6 @@ import { domain } from "./anime/[[...id]]/page";
 import { TopAiringAnime } from "./interface/topAiring";
 import AnimeCard from "./anime/[[...id]]/animecard";
 import Description from "./description";
-import { Metadata } from "next";
 
 
 

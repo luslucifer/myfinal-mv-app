@@ -19,4 +19,5 @@ export function AlignedKrywords(obj:KeyWordObj,tvObj:GetKeys){
          
          return arr.join(',')
     }
+console.log('sakmklaknfajknfanfa.fa'+obj)
 }

@@ -45,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-      <Script type="text/javascript" src="//pl22605886.profitablegatecpm.com/ba/a4/94/baa494465d92a7af87dc12ca2d1345d6.js"></Script>
+      {/* <Script type="text/javascript" src="//pl22605886.profitablegatecpm.com/ba/a4/94/baa494465d92a7af87dc12ca2d1345d6.js"></Script> */}
       <Script async={true} data-cfasync="false" src="//pl22605920.profitablegatecpm.com/dd557c9a26e30f25619cbaa7855c4f00/invoke.js"></Script>
 
       </head>

@@ -35,6 +35,7 @@ import Image from "next/image";
 import { Metadata, ResolvingMetadata } from 'next'
 import Description from "@/app/description";
 import NativeBanner from "@/app/ads/nativeBanner";
+import Banner from "@/app/ads/banner";
  
 type Props = {
   params:string[]
@@ -266,6 +267,7 @@ export default async function Profile({ params }: any) {
               })}
             </Box>            
           </Box>
+          {/* <Banner></Banner> */}
         </Grid>
         <Grid item xs={12} sm={9}>
           <Box className="biography">
