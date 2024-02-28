@@ -37,6 +37,7 @@ import { AlignedKrywords } from "./keywords";
 import { Metadata,ResolvingMetadata } from "next";
 import DescriptionBox from "@/app/components/MvTvReviewBox";
 import NativeBanner from "@/app/ads/nativeBanner";
+import ComboBanners from "@/app/ads/comboBanners";
 async function getData(id: number) {
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
@@ -208,6 +209,7 @@ const vote_average = Math.round(movieData.vote_average*10)
          ) })}
         </CardContent>
       </Card>
+
 
       <Box
         sx={{

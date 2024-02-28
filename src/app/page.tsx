@@ -9,6 +9,7 @@ import { domain } from "./anime/[[...id]]/page";
 import { TopAiringAnime } from "./interface/topAiring";
 import AnimeCard from "./anime/[[...id]]/animecard";
 import Description from "./description";
+import ComboBanners from "./ads/comboBanners";
 
 
 
@@ -60,11 +61,15 @@ export default async function Home() {
 <Typography textAlign={'center'}>
 <Description></Description>
 </Typography>
+
+<ComboBanners></ComboBanners>
         <Box className='popular movies'>
 
           <Typography variant="h4"> Popular</Typography>
           <TmdbScroller obj={popularMv} isTv={false}></TmdbScroller>
         </Box>
+
+  <ComboBanners></ComboBanners>
 
 <Box className="trending">
 <Typography variant="h4"> Trending</Typography>
@@ -73,12 +78,14 @@ export default async function Home() {
 <TmdbScroller obj={trendingMv}></TmdbScroller>
 </Box>
 
+<ComboBanners></ComboBanners>
 
 <Box className="popularTvs">
 <Typography variant="h4"> Popular Tv</Typography>
 <TmdbScroller obj={popularTv} isTv={true}></TmdbScroller>
 </Box>
 
+<ComboBanners></ComboBanners>
 <Box className="topAnime">
   <Typography variant="h4"> Top Anime</Typography>
 <Stack className='popularAnimes' flexDirection={'row'} gap={2} overflow='scroll' >
