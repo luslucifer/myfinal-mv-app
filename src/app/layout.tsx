@@ -47,6 +47,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+          <link rel="icon" type="image/png" sizes="32x32" href="https://www.moviekex.com/favicon-32x32.png"/>
+          <link rel="icon" type="image/png" sizes="16x16" href="https://www.moviekex.com/favicon-16x16.png"/>
       {/* <Script type="text/javascript" src="//pl22605886.profitablegatecpm.com/ba/a4/94/baa494465d92a7af87dc12ca2d1345d6.js"></Script> */}
       <Script async={true} data-cfasync="false" src="//pl22605920.profitablegatecpm.com/dd557c9a26e30f25619cbaa7855c4f00/invoke.js"></Script>
 
