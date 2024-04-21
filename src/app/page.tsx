@@ -86,14 +86,14 @@ export default async function Home() {
 </Box>
 
 <ComboBanners></ComboBanners>
-<Box className="topAnime">
+{/* <Box className="topAnime">
   <Typography variant="h4"> Top Anime</Typography>
 <Stack className='popularAnimes' flexDirection={'row'} gap={2} overflow='scroll' >
     {topAnime.results.map((obj,index)=>{
       return <AnimeCard obj={obj} key={index}></AnimeCard>
     })}
 </Stack>
-    </Box>
+    </Box> */}
 
 
 </Container>

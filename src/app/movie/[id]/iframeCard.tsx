@@ -18,11 +18,11 @@ export default function IframeCard(props:IframeBox){
 
 var  src
     if(!istv){
-        src= `https://vidsrc.to/embed/movie/${id}`
+        src= `https://vidjoy.net/embed/movie/${id}`
 
     }
     else{
-        src=`https://vidsrc.to/embed/tv/${id}/${ss}/${ep}` 
+        src=`https://vidjoy.net/embed/tv/${id}/${ss}/${ep}` 
     }
 
     return (
